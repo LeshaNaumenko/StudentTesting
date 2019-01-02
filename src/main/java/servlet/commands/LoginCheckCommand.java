@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.User;
 import org.apache.log4j.Logger;
 import service.ThemeService;
@@ -20,7 +20,7 @@ public class LoginCheckCommand extends Command {
     final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         userService = new UserService();
         LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
         String email = req.getParameter("email");

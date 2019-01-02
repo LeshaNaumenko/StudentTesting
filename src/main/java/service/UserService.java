@@ -1,8 +1,8 @@
 package service;
 
 import connection.MysqlConnection;
-import exeption.PersistException;
-import exeption.ServiceExeption;
+import exceptions.PersistException;
+import exceptions.ServiceException;
 import model.dao.UserDao;
 import model.dao.factory.DAOFactory;
 import model.entity.User;
@@ -21,31 +21,31 @@ public class UserService {
         this.userDAO = DAOFactory.getInstance("mysql").getUserDAO(connection);
     }
 
-    public List<User> getAllUsers() throws ServiceExeption {
+    public List<User> getAllUsers() throws ServiceException {
         try {
             return userDAO.getAll();
         } catch (PersistException e) {
             logger.error("Exception getting all users. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public User getUserBy(String column, String value) throws ServiceExeption {
+    public User getUserBy(String column, String value) throws ServiceException {
 
         try {
             return userDAO.getEntityBy(column, value);
         } catch (PersistException e) {
             logger.error("Exception getting users by "+column+" with a value of "+value+". \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public User registerUser(User user) throws ServiceExeption {
+    public User registerUser(User user) throws ServiceException {
         try {
             return userDAO.create(user);
         } catch (PersistException e) {
             logger.error("Exception when creating an users. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 

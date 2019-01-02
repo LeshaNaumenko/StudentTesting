@@ -1,8 +1,8 @@
 package service;
 
 import connection.MysqlConnection;
-import exeption.PersistException;
-import exeption.ServiceExeption;
+import exceptions.PersistException;
+import exceptions.ServiceException;
 import model.dao.ThemeDao;
 import model.dao.factory.DAOFactory;
 import model.entity.Theme;
@@ -21,12 +21,12 @@ public class ThemeService {
         this.themeDAO = DAOFactory.getInstance("mysql").getThemeDAO(connection);
     }
 
-    public List<Theme> findAllThemes() throws ServiceExeption {
+    public List<Theme> findAllThemes() throws ServiceException {
         try {
             return themeDAO.getAll();
         } catch (PersistException e) {
             logger.error("Exception getting themes. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -38,21 +38,21 @@ public class ThemeService {
         return courseName;
     }
 
-    public List<Theme> getListOfEntityBy(String column, Object value) throws ServiceExeption {
+    public List<Theme> getListOfEntityBy(String column, Object value) throws ServiceException {
         try {
             return themeDAO.getListOfEntityBy(column, value);
         } catch (PersistException e) {
             logger.error("Exception getting themes by "+column+" with a value of "+value+". \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public Theme getThemeByID(Integer themeId) throws ServiceExeption {
+    public Theme getThemeByID(Integer themeId) throws ServiceException {
         try {
             return themeDAO.getEntityBy("id", themeId);
         } catch (PersistException e) {
             logger.error("Exception getting themes by id. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 

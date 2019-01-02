@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
 import service.TestService;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GetStudentResultCommand extends Command {
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
 
         testService = new TestService();
         userService = new UserService();

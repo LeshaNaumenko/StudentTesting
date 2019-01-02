@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.Question;
 import model.entity.Test;
 import model.entity.Theme;
@@ -20,7 +20,7 @@ import java.util.List;
 public class SaveTheResultCommand extends Command {
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
 
         themeService = new ThemeService();
         testService = new TestService();

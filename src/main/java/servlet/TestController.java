@@ -1,6 +1,6 @@
 package servlet;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import servlet.commands.CommandFactory;
 import servlet.commands.CommandResult;
 
@@ -31,7 +31,7 @@ public class TestController extends HttpServlet {
         CommandResult page = null;
         try {
             page = CommandFactory.getCommand(sessionCommand).execute(req, resp);
-        } catch (ServiceExeption serviceExeption) {
+        } catch (ServiceException serviceException) {
             page = CommandResult.forward("WEB-INF/error.jsp");
         }
         dispatch(req, resp, page);

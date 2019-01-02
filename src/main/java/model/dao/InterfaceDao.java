@@ -1,6 +1,6 @@
 package model.dao;
 
-import exeption.PersistException;
+import exceptions.PersistException;
 
 import java.util.List;
 

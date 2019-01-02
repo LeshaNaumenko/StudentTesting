@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.User;
 import service.ThemeService;
 import service.UserService;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RegisterCommand extends Command {
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         userService = new UserService();
         LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
 

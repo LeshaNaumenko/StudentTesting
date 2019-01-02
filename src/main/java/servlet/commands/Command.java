@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import service.QuestionService;
 import service.TestService;
 import service.ThemeService;
@@ -21,5 +21,5 @@ public abstract class Command {
     public Command() {
 
     }
-    public abstract CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption;
+    public abstract CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException;
 }

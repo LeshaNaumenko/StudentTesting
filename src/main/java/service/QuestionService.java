@@ -1,8 +1,8 @@
 package service;
 
 import connection.MysqlConnection;
-import exeption.PersistException;
-import exeption.ServiceExeption;
+import exceptions.PersistException;
+import exceptions.ServiceException;
 import model.dao.QuestionDao;
 import model.dao.factory.DAOFactory;
 import model.entity.Question;
@@ -23,21 +23,21 @@ public class QuestionService {
         this.questionDao = DAOFactory.getInstance("mysql").getQuestionDao(connection);
     }
 
-    public List<Question> getQuestions(String column, Object value) throws ServiceExeption {
+    public List<Question> getQuestions(String column, Object value) throws ServiceException {
         try {
             return questionDao.getListOfEntityBy(column, value);
         } catch (PersistException e) {
             logger.error("Exception getting question. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public List<Question> getQuestions(Integer themeId, Locale locale) throws ServiceExeption {
+    public List<Question> getQuestions(Integer themeId, Locale locale) throws ServiceException {
         try {
             return questionDao.getListOfQuestionWithLocale(themeId, locale);
         } catch (PersistException e) {
             logger.error("Exception getting question. \nError message: " + e.getMessage());
-            throw new ServiceExeption(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 

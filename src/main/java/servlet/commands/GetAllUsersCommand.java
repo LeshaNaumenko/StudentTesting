@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.User;
 import service.UserService;
 import utility.LanguageManager;
@@ -14,7 +14,7 @@ import java.util.List;
 public class GetAllUsersCommand extends Command {
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
         userService = new UserService();
 
         LanguageManager languageManager = (LanguageManager) request.getSession().getAttribute("appLocale");

@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
 import service.TestService;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GetCurrentUserResultCommand extends Command {
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         User currentUser = (User) req.getSession().getAttribute("user");
         testService = new TestService();
         List<TestDTO> testDTOList = testService.getResultsById(currentUser.getId());

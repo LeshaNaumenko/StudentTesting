@@ -1,6 +1,6 @@
 package model.dao;
 
-import exeption.PersistException;
+import exceptions.PersistException;
 import model.entity.Test;
 import model.entity.TestDTO;
 

@@ -1,6 +1,6 @@
 package servlet.commands;
 
-import exeption.ServiceExeption;
+import exceptions.ServiceException;
 import model.entity.Question;
 import model.entity.Theme;
 import service.QuestionService;
@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class GetTestCommand extends Command {
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceExeption {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         LanguageManager languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         themeService = new ThemeService();
         questionService = new QuestionService();
