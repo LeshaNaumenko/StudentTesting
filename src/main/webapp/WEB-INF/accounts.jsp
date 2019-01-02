@@ -34,6 +34,7 @@
                         <td><fmt:message key="${students.role}"/></td>
                         <td>
                             <form class="my-form-menu" action="/test" method="post">
+                                <input type="hidden" name="currentPage" value="1">
                                 <input type="hidden" name="command" value="SHOW_RESULTS">
                                 <input type="hidden" name="student_id" value="${students.id}">
                                 <input style="color: blue" class="nav-link" type="submit"

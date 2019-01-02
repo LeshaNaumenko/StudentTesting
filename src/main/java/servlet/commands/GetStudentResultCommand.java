@@ -19,6 +19,9 @@ public class GetStudentResultCommand extends Command {
         userService = new UserService();
         User student;
         String student_id = req.getParameter("student_id");
+        int currentPage = Integer.valueOf(req.getParameter("currentPage"));//!!!!!!!!!!!!
+        int recordsPerPage = 5;
+        int start = currentPage * recordsPerPage - recordsPerPage;
         //for more info about student
         if (student_id != null) {
             student= userService.getUserBy("id",student_id );
@@ -26,8 +29,17 @@ public class GetStudentResultCommand extends Command {
         }
         student=(User)req.getSession().getAttribute("student");
 
-        List<TestDTO> testDTOList = testService.getResultsById(student.getId());
+        List<TestDTO> testDTOList = testService.getResultsById(student.getId(), start, recordsPerPage);
+        int rows = testService.getNumberOfRows(student.getId());
 
+        int nOfPages = rows / recordsPerPage;
+
+        if (nOfPages % recordsPerPage > 0) {
+            nOfPages++;
+        }
+        req.setAttribute("noOfPages", nOfPages);
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("recordsPerPage", recordsPerPage);
         req.setAttribute("testDTOList", testDTOList);
         return CommandResult.forward("WEB-INF/results.jsp");
     }

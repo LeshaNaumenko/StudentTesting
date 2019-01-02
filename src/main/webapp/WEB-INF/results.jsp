@@ -71,6 +71,59 @@
                 </tbody>
             </table>
         </div>
+        <nav aria-label="Navigation for test" >
+            <ul class="pagination" style="max-width: 400px;margin-right: auto;margin-left: auto;">
+                <c:if test="${currentPage != 1}">
+                    <li class="page-item">
+                    <form class="my-form-menu" action="/test" method="post">
+                        <input type="hidden" name="command" value="${sessionScope.comm}">
+                        <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
+                        <input type="hidden" name="currentPage" value="${currentPage-1}">
+                        <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
+                        <input class="nav-link" type="submit" value="Previous">
+                    </form>
+                    </li>
+                </c:if>
+
+                <c:forEach begin="1" end="${noOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${currentPage eq i}">
+                            <li class="page-item active">
+                                <form class="my-form-menu" >
+                                        <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
+                                    <input class="nav-link" type="submit" value="${i}">
+                                </form>
+                            </li>
+                            <%--<li class="page-item active"><a class="page-link"> ${i} <span class="sr-only">(current)</span></a> </li>--%>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <form class="my-form-menu" action="/test" method="post">
+                                    <input type="hidden" name="command" value="${sessionScope.comm}">
+                                    <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
+                                    <input type="hidden" name="currentPage" value="${i}">
+                                        <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
+                                    <input class="nav-link" type="submit" value="${i}">
+                                </form>
+                            </li>
+                            <%--<li class="page-item"><a class="page-link" href="test?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a> </li>--%>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${currentPage lt noOfPages}">
+                    <li class="page-item">
+                        <form class="my-form-menu" action="/test" method="post">
+                            <input type="hidden" name="command" value="${sessionScope.comm}">
+                            <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
+                            <input type="hidden" name="currentPage" value="${currentPage+1}">
+                                <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
+                            <input class="nav-link" type="submit" value="Next">
+                        </form>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
     </c:when>
     <c:otherwise>
         <h1 style="text-align: center;margin-top: 5%;color:red"><fmt:message key="no-test"/></h1>

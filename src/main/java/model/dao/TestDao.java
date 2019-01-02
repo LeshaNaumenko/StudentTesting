@@ -14,7 +14,8 @@ public class TestDao extends AbstractDao<Test, Integer> {
     static final String INSERT_TEST = "INSERT INTO student_testing.test (user_id, theme_id,status,grade,start_time,end_time, test_time,date ) VALUES (?,?,?,?,?,?,?,?)";
 
     public static String GET_STUDENT_RESULTS = "SELECT test.id, themes.course_name, themes.theme_name, test.date, test.start_time, test.end_time, themes.time, test.test_time, themes.passing_grade, test.grade, test.status FROM `student_testing`.`test` join `student_testing`.`themes` on\n" +
-            "`test`.`theme_id` = `themes`.`id` where user_id = ? ORDER BY `test`.`date` desc;";
+            "`test`.`theme_id` = `themes`.`id` where user_id = ? ORDER BY `test`.`date` desc LIMIT ?, ?";
+    public static String GET_THE_NUMBER_OF_TESTS = "SELECT COUNT(test.id) FROM `student_testing`.`test` where user_id = ?";
 
     static final String GET_ALL_TEST = "SELECT * FROM student_testing.test";
 
@@ -84,13 +85,13 @@ public class TestDao extends AbstractDao<Test, Integer> {
         return INSERT_TEST;
     }
 
-    public List<TestDTO> getResultsForStudent(Integer id) throws PersistException {
+    public List<TestDTO> getTestResults(int id, int start, int recordsPerPage) throws PersistException {
         List<TestDTO> listTestDTO = new ArrayList<>();
         String sql = GET_STUDENT_RESULTS;
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setObject(1, id);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, recordsPerPage);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 listTestDTO.add(new TestDTO.TestBuilder()
@@ -113,5 +114,22 @@ public class TestDao extends AbstractDao<Test, Integer> {
             throw new PersistException(e);
         }
         return listTestDTO;
+    }
+
+    public int getNumberOfRows(int id) throws PersistException {
+        int numOfRows = 0;
+            String sql = GET_THE_NUMBER_OF_TESTS;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setObject(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                numOfRows = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Error getting number of rows of the test \n" +
+                    "Error message: " + e.getMessage());
+            throw new PersistException(e);
+        }
+        return numOfRows;
     }
 }

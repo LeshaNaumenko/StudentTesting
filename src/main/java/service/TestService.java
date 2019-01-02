@@ -59,9 +59,9 @@ public class TestService {
         }
     }
 
-    public List<TestDTO> getResultsById(Integer id) throws ServiceException {
+    public List<TestDTO> getResultsById(int id, int currentPage, int recordsPerPage) throws ServiceException {
         try {
-            return testDao.getResultsForStudent(id);
+            return testDao.getTestResults(id, currentPage, recordsPerPage);
         } catch (PersistException e) {
             logger.error("Exception getting results for user  by id. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
@@ -83,4 +83,13 @@ public class TestService {
     }
 
 
+    public int getNumberOfRows(int id) throws ServiceException {
+        try {
+            return testDao.getNumberOfRows(id);
+        } catch (PersistException e) {
+            logger.error("Error getting number of rows of the test \n" +
+                    "Error message: " + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }
