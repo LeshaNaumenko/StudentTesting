@@ -1,13 +1,14 @@
-package servlet.commands;
+package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
 import org.apache.log4j.Logger;
 import service.ThemeService;
 import service.UserService;
+import utility.EmailValidator;
 import utility.LanguageManager;
 import utility.PasswordSecurity;
-import utility.Validator;
+import utility.PasswordValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +28,8 @@ public class LoginCheckCommand extends Command {
         String password = req.getParameter("password");
 
         //validation
-        boolean checkEmail = Validator.checkEmail(email);
-        boolean checkPassword = Validator.checkPassword(password);
+        boolean checkEmail = EmailValidator.checkEmail(email);
+        boolean checkPassword = PasswordValidator.checkPassword(password);
 
         if (!checkEmail)                  req.setAttribute("errEmailMessage", languageManager.getMessage("example-email"));
         if (!checkPassword)               req.setAttribute("errPassMessage", languageManager.getMessage("password-info"));

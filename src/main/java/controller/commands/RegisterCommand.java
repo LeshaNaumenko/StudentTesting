@@ -1,11 +1,13 @@
-package servlet.commands;
+package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
 import service.ThemeService;
 import service.UserService;
+import utility.EmailValidator;
 import utility.LanguageManager;
-import utility.Validator;
+import utility.NameSurnameValidator;
+import utility.PasswordValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +27,10 @@ public class RegisterCommand extends Command {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        boolean checkEmail = Validator.checkEmail(email);
-        boolean checkPass = Validator.checkPassword(password);
-        boolean checkFirst = Validator.checkNames(firstName);
-        boolean checkLast = Validator.checkNames(lastName);
+        boolean checkEmail = EmailValidator.checkEmail(email);
+        boolean checkPass = PasswordValidator.checkPassword(password);
+        boolean checkFirst = NameSurnameValidator.checkNames(firstName);
+        boolean checkLast = NameSurnameValidator.checkNames(lastName);
 
         //setMessages
         if (!checkEmail) {

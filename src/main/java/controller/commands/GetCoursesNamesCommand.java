@@ -1,4 +1,4 @@
-package servlet.commands;
+package controller.commands;
 
 import service.ThemeService;
 

@@ -1,4 +1,4 @@
-package servlet.commands;
+package controller.commands;
 
 public class CommandResult {
     private final boolean redirect;

@@ -1,6 +1,4 @@
-package servlet.commands;
-
-import servlet.commands.*;
+package controller.commands;
 
 import java.util.HashMap;
 import java.util.Map;

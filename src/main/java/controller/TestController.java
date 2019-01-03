@@ -1,8 +1,8 @@
-package servlet;
+package controller;
 
 import exceptions.ServiceException;
-import servlet.commands.CommandFactory;
-import servlet.commands.CommandResult;
+import controller.commands.CommandFactory;
+import controller.commands.CommandResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
