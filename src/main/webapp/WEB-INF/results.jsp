@@ -73,12 +73,12 @@
         </div>
         <nav aria-label="Navigation for test" >
             <ul class="pagination" style="max-width: 400px;margin-right: auto;margin-left: auto;">
-                <c:if test="${currentPage != 1}">
+                <c:if test="${sessionScope.currentPage != 1}">
                     <li class="page-item">
                     <form class="my-form-menu" action="/test" method="post">
                         <input type="hidden" name="command" value="${sessionScope.comm}">
                         <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
-                        <input type="hidden" name="currentPage" value="${currentPage-1}">
+                        <input type="hidden" name="currentPage" value="${sessionScope.currentPage-1}">
                         <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
                         <input class="nav-link" type="submit" value="Previous">
                     </form>
@@ -87,7 +87,7 @@
 
                 <c:forEach begin="1" end="${noOfPages}" var="i">
                     <c:choose>
-                        <c:when test="${currentPage eq i}">
+                        <c:when test="${sessionScope.currentPage eq i}">
                             <li class="page-item active">
                                 <form class="my-form-menu" >
                                         <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
@@ -111,12 +111,12 @@
                     </c:choose>
                 </c:forEach>
 
-                <c:if test="${currentPage lt noOfPages}">
+                <c:if test="${sessionScope.currentPage lt noOfPages}">
                     <li class="page-item">
                         <form class="my-form-menu" action="/test" method="post">
                             <input type="hidden" name="command" value="${sessionScope.comm}">
                             <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
-                            <input type="hidden" name="currentPage" value="${currentPage+1}">
+                            <input type="hidden" name="currentPage" value="${sessionScope.currentPage+1}">
                                 <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
                             <input class="nav-link" type="submit" value="Next">
                         </form>

@@ -118,7 +118,8 @@
                 <li class="nav-item">
                     <form class="my-form-menu" action="/test" method="post">
                         <input type="hidden" name="currentPage" value="1">
-                        <input type="hidden" name="command" value="CURRENT_USER_RESULT">
+                        <input type="hidden" name="command" value="SHOW_RESULTS">
+                        <input type="hidden" name="student_id" value="${sessionScope.user.id}">
                         <input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">
                     </form>
                 </li>

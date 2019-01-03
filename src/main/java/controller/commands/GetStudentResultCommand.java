@@ -5,6 +5,7 @@ import model.entity.TestDTO;
 import model.entity.User;
 import service.TestService;
 import service.UserService;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,16 +20,23 @@ public class GetStudentResultCommand extends Command {
         userService = new UserService();
         User student;
         String student_id = req.getParameter("student_id");
-        int currentPage = Integer.valueOf(req.getParameter("currentPage"));//!!!!!!!!!!!!
+
+        String currentPageStr = req.getParameter("currentPage");
+        int currentPage;
         int recordsPerPage = 5;
-        int start = currentPage * recordsPerPage - recordsPerPage;
         //for more info about student
         if (student_id != null) {
-            student= userService.getUserBy("id",student_id );
+            student = userService.getUserBy("id", student_id);
             req.getSession().setAttribute("student", student);
         }
-        student=(User)req.getSession().getAttribute("student");
+        student = (User) req.getSession().getAttribute("student");
 
+        if (currentPageStr != null) {
+            currentPage = Integer.valueOf(currentPageStr);
+        } else
+            currentPage = (int) req.getSession().getAttribute("currentPage");
+
+        int start = currentPage * recordsPerPage - recordsPerPage;
         List<TestDTO> testDTOList = testService.getResultsById(student.getId(), start, recordsPerPage);
         int rows = testService.getNumberOfRows(student.getId());
 
@@ -38,7 +46,7 @@ public class GetStudentResultCommand extends Command {
             nOfPages++;
         }
         req.setAttribute("noOfPages", nOfPages);
-        req.setAttribute("currentPage", currentPage);
+        req.getSession().setAttribute("currentPage", currentPage);
         req.setAttribute("recordsPerPage", recordsPerPage);
         req.setAttribute("testDTOList", testDTOList);
         return CommandResult.forward("WEB-INF/results.jsp");
