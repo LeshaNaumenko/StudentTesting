@@ -42,8 +42,8 @@
                     <c:forEach items="${themesByCourse}" var="theme">
                         <tr>
                             <th scope="row"><c:out value="${theme.id}"/></th>
-                            <td><a class="nav-link" href="/test?theme_id=<c:out value="${theme.id}"/>&command=GET_TEST"><c:out
-                                    value="${theme.theme_name}"/></td>
+                            <td><a class="nav-link" href="/test?theme_id=<c:out value="${theme.id}"/>&command=GET_TEST"/>
+                                <c:out value="${theme.theme_name}"/></td>
                             <td><c:out value="${theme.course_name}"/></td>
                             <td><c:out value="${theme.time}"/></td>
                             <td><c:out value="${theme.passing_grade}"/></td>
