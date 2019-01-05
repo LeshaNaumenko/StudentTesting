@@ -1,4 +1,4 @@
-package model.dao;
+package dao;
 
 
 import exceptions.PersistException;
@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.List;
 
-public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
+public abstract class AbstractDao<T, K>  {
     final static Logger logger = Logger.getLogger(AbstractDao.class);
     public Connection connection;
 
@@ -28,7 +28,7 @@ public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
     protected abstract void prepareStatementForUpdate(PreparedStatement statement, T object);
 
 
-    @Override
+
     public T create(T object) throws PersistException {
         T persistInstance = null;
         Integer id;
@@ -58,7 +58,7 @@ public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
         }
     }
 
-    @Override
+
     public T getEntityBy(String column, Object value) throws PersistException {
         List<T> list;
         String sql = getSelectQueryForList() + " where " + column + "=?";
@@ -81,7 +81,7 @@ public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
         return list.iterator().next();
     }
 
-    @Override
+
     public List<T> getAll() throws PersistException {
         List<T> list;
         String selectQuery = getSelectQuery();
@@ -97,7 +97,7 @@ public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
     }
 
 
-    @Override
+
     public List<T> getListOfEntityBy(String column, Object value) throws PersistException {
         List<T> list;
         String sql = getSelectQueryForList() + " where " + column + "=?";
@@ -111,6 +111,14 @@ public abstract class AbstractDao<T, K> implements InterfaceDao<T, K> {
             throw new PersistException(e);
         }
         return list;
+    }
+
+    public T update(T entity) {
+        return null;
+    }
+
+    public boolean delete(K key) {
+        return false;
     }
 
 

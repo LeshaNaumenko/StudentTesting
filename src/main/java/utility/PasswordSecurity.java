@@ -1,14 +1,9 @@
 package utility;
 
-import connection.MysqlConnection;
-import model.entity.User;
-
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.sql.*;
 
 public class PasswordSecurity {
 

@@ -1,6 +1,9 @@
-package model.dao;
+package dao.impl;
 
+import dao.AbstractDao;
+import dao.IThemeDAO;
 import model.entity.Theme;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemeDao extends AbstractDao<Theme, Integer> {
+public class MysqlThemeDao extends AbstractDao<Theme, Integer> implements IThemeDAO<Theme, Integer> {
+    final static Logger logger = Logger.getLogger(MysqlThemeDao.class);
 
     public static String GET_ALL_COURSES_WITH_QUESTION = "SELECT Themes.theme_name, questions.question  " +
             "FROM student_testing.Themes join questions on Themes.id = questions.theme_id; ";
     public static String GET_ALL_THEMES = "select * from themes";
     public static String GET_ALL_COURSES_NAME = "SELECT DISTINCT themes.course_name FROM themes;";
 
-    public ThemeDao(Connection connection) {
+    public MysqlThemeDao(Connection connection) {
         super(connection);
     }
 
@@ -72,12 +76,10 @@ public class ThemeDao extends AbstractDao<Theme, Integer> {
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Theme object) {
-
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, Theme object) {
-
     }
 
     @Override

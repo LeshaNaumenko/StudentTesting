@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import service.ServiceFactory;
 import service.ThemeService;
 import service.UserService;
 import utility.EmailValidator;
@@ -18,7 +19,7 @@ import java.util.List;
 public class RegisterCommand extends Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
-        userService = new UserService();
+        userService = ServiceFactory.getUserService();
         LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
 
         String firstName = req.getParameter("fname");
@@ -69,7 +70,7 @@ public class RegisterCommand extends Command {
                 .build()
         );
         req.getSession().setAttribute("user", newUser);
-        themeService = new ThemeService();
+        themeService = ServiceFactory.getThemeService();
         List<String> courses = themeService.getCourses();
         req.getSession().setAttribute("course_name_list", courses);
         req.getSession().setAttribute("comm", "GET_COURSES");

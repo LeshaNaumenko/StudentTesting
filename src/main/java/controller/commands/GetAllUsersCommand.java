@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import service.ServiceFactory;
 import service.UserService;
 import utility.LanguageManager;
 
@@ -15,7 +16,7 @@ public class GetAllUsersCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
-        userService = new UserService();
+        userService = ServiceFactory.getUserService();
 
         LanguageManager languageManager = (LanguageManager) request.getSession().getAttribute("appLocale");
         List<User> allUsers = userService.getAllUsers();

@@ -10,17 +10,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class MysqlConnection implements DBConnection {
+public final class ConnectionPool {
     private static volatile DataSource dataSource;
     private static volatile Connection connection = null;
 
     public static Connection createConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             ResourceBundle resource = ResourceBundle.getBundle("db");
             String url = resource.getString("url");
             String user = resource.getString("user");
             String pass = resource.getString("password");
+            String driver = resource.getString("driver");
+            Class.forName(driver);
 
             connection = DriverManager.getConnection(url, user, pass);
             return connection;
@@ -32,11 +33,11 @@ public class MysqlConnection implements DBConnection {
 
     private static DataSource getDataSource() {
         if (dataSource == null) {
-            synchronized (MysqlConnection.class) {
+            synchronized (ConnectionPool.class) {
                 if (dataSource == null) {
                     BasicDataSource ds = new BasicDataSource();
                     ResourceBundle resource = ResourceBundle.getBundle("db");
-//                    ds.setDriverClassName(properties.getProperty("db.driver"));
+                    ds.setDriverClassName(resource.getString("driver"));
                     ds.setUrl(resource.getString("url"));
                     ds.setUsername(resource.getString("user"));
                     ds.setPassword(resource.getString("password"));
@@ -50,7 +51,7 @@ public class MysqlConnection implements DBConnection {
         return dataSource;
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {

@@ -1,34 +1,23 @@
 package service;
 
-import connection.MysqlConnection;
+import dao.IThemeDAO;
 import exceptions.PersistException;
 import exceptions.ServiceException;
-import model.dao.ThemeDao;
-import model.dao.factory.DAOFactory;
+import dao.factory.DAOFactory;
 import model.entity.Theme;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class ThemeService {
     final static Logger logger = Logger.getLogger(ThemeService.class);
 
-    private ThemeDao themeDAO;
+    private IThemeDAO<Theme, Integer> themeDAO;
 
     public ThemeService() {
-        Connection connection = MysqlConnection.createConnection();
-        this.themeDAO = DAOFactory.getInstance("mysql").getThemeDAO(connection);
+        this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
     }
 
-    public List<Theme> findAllThemes() throws ServiceException {
-        try {
-            return themeDAO.getAll();
-        } catch (PersistException e) {
-            logger.error("Exception getting themes. \nError message: " + e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
 
     public List<String> getCourses(){
         List<String> courseName = themeDAO.getCourseName();

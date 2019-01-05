@@ -28,7 +28,8 @@ public class TestController extends HttpServlet {
         String strCommand = req.getParameter("command");
         if (strCommand != null) req.getSession().setAttribute("comm", strCommand); //for language
         String sessionCommand = (String) req.getSession().getAttribute("comm");
-        CommandResult page = null;
+        System.out.println("Command:"+sessionCommand);
+        CommandResult page;
         try {
             page = CommandFactory.getCommand(sessionCommand).execute(req, resp);
         } catch (ServiceException serviceException) {

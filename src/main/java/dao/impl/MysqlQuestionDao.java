@@ -1,5 +1,7 @@
-package model.dao;
+package dao.impl;
 
+import dao.AbstractDao;
+import dao.IQuestionDAO;
 import exceptions.PersistException;
 import model.entity.Question;
 import org.apache.log4j.Logger;
@@ -12,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class QuestionDao extends AbstractDao<Question, Integer> {
-    final static Logger logger = Logger.getLogger(QuestionDao.class);
+public class MysqlQuestionDao extends AbstractDao<Question, Integer> implements IQuestionDAO<Question, Integer> {
+    final static Logger logger = Logger.getLogger(MysqlQuestionDao.class);
 
     final String GET_ALL_QUESTIONS = "select * from questions";
     final String GET_ALL_QUESTIONS_OF_A_CERTAIN_COURSE =
@@ -26,7 +28,7 @@ public class QuestionDao extends AbstractDao<Question, Integer> {
             "inner join language on question_translate.lang_id = language.id\n" +
             "where language.language =?  and language.country = ? and questions.theme_id = ?;";
 
-    public QuestionDao(Connection connection) {
+    public MysqlQuestionDao(Connection connection) {
         super(connection);
     }
 

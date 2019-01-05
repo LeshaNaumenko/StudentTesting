@@ -1,8 +1,11 @@
-package model.dao;
+package dao.impl;
 
+import dao.AbstractDao;
+import dao.ITestDAO;
 import exceptions.PersistException;
 import model.entity.Test;
 import model.entity.TestDTO;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class TestDao extends AbstractDao<Test, Integer> {
+public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO<Test,Integer> {
+    final static Logger logger = Logger.getLogger(MysqlTestDao.class);
+
     static final String INSERT_TEST = "INSERT INTO student_testing.test (user_id, theme_id,status,grade,start_time,end_time, test_time,date ) VALUES (?,?,?,?,?,?,?,?)";
 
     public static String GET_STUDENT_RESULTS = "SELECT test.id, themes.course_name, themes.theme_name, test.date, test.start_time, test.end_time, themes.time, test.test_time, themes.passing_grade, test.grade, test.status FROM `student_testing`.`test` join `student_testing`.`themes` on\n" +
@@ -19,7 +24,7 @@ public class TestDao extends AbstractDao<Test, Integer> {
 
     static final String GET_ALL_TEST = "SELECT * FROM student_testing.test";
 
-    public TestDao(Connection connection) {
+    public MysqlTestDao(Connection connection) {
         super(connection);
     }
 
@@ -85,7 +90,7 @@ public class TestDao extends AbstractDao<Test, Integer> {
         return INSERT_TEST;
     }
 
-    public List<TestDTO> getTestResults(int id, int start, int recordsPerPage) throws PersistException {
+    public List<TestDTO> getTestResults(Integer id, Integer start, Integer recordsPerPage) throws PersistException {
         List<TestDTO> listTestDTO = new ArrayList<>();
         String sql = GET_STUDENT_RESULTS;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -116,7 +121,7 @@ public class TestDao extends AbstractDao<Test, Integer> {
         return listTestDTO;
     }
 
-    public int getNumberOfRows(int id) throws PersistException {
+    public Integer getNumberOfRows(Integer id) throws PersistException {
         int numOfRows = 0;
             String sql = GET_THE_NUMBER_OF_TESTS;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){

@@ -12,25 +12,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoginFilter implements Filter {
     public static AtomicInteger integer = new AtomicInteger(0);
 
-    private String encoding;
-
-    public void init(FilterConfig config) throws ServletException {
-        encoding = config.getInitParameter("requestEncoding");
-
-        if (encoding == null) encoding = "UTF-8";
-    }
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        if (null == request.getCharacterEncoding())
-            request.setCharacterEncoding(encoding);
-        response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
         HttpSession session = request.getSession(false);
-
         String loginURI = request.getContextPath() + "/";
         boolean loginRequest = request.getRequestURI().equals(loginURI);
         boolean testRequest = request.getRequestURI().equals("/test");

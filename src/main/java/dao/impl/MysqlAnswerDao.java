@@ -1,6 +1,9 @@
-package model.dao;
+package dao.impl;
 
+import dao.AbstractDao;
+import dao.IAnswerDAO;
 import model.entity.Answer;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AnswerDao extends AbstractDao<Answer, Integer> {
-    public AnswerDao(Connection connection) {
+public class MysqlAnswerDao extends AbstractDao<Answer, Integer> implements IAnswerDAO<Answer, Integer> {
+    final static Logger logger = Logger.getLogger(MysqlAnswerDao.class);
+
+    public MysqlAnswerDao(Connection connection) {
         super(connection);
     }
 

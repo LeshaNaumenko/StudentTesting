@@ -1,7 +1,9 @@
-package model.dao;
+package dao.impl;
 
+import dao.AbstractDao;
+import dao.IUserDAO;
 import model.entity.User;
-import model.factory.EntityFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,10 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao extends AbstractDao<User, Integer> {
+public class MysqlUserDao extends AbstractDao<User, Integer> implements IUserDAO<User, Integer> {
+    final static Logger logger = Logger.getLogger(MysqlUserDao.class);
+
     public static String GET_ALL_USERS = "SELECT * FROM user";
     public static String INSERT_USER = "INSERT INTO `student_testing`.`user` ( `first_name`,`last_name`,`email`,`password`,`salt`,`role`) VALUES (?,?,?,?,?,?);";
-    public UserDao(Connection connection) {
+    public MysqlUserDao(Connection connection) {
         super(connection);
     }
 
@@ -41,8 +45,6 @@ public class UserDao extends AbstractDao<User, Integer> {
             }
             return users;
     }
-
-
     @Override
     public String getSelectQuery() {
         return GET_ALL_USERS;
@@ -66,7 +68,6 @@ public class UserDao extends AbstractDao<User, Integer> {
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement statement, User object) {
-
     }
 
     @Override

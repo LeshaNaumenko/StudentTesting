@@ -1,24 +1,23 @@
 package service;
 
-import connection.MysqlConnection;
 import exceptions.PersistException;
 import exceptions.ServiceException;
-import model.dao.UserDao;
-import model.dao.factory.DAOFactory;
+import dao.IUserDAO;
+import dao.factory.DAOFactory;
 import model.entity.User;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class UserService {
     final static Logger logger = Logger.getLogger(UserService.class);
 
-    UserDao userDAO;
+    private IUserDAO<User, Integer> userDAO;
 
     public UserService() {
-        Connection connection = MysqlConnection.createConnection();
-        this.userDAO = DAOFactory.getInstance("mysql").getUserDAO(connection);
+        DAOFactory instance = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB);
+        IUserDAO<User, Integer> userDAO = instance.getUserDAO();
+        this.userDAO = userDAO;
     }
 
     public List<User> getAllUsers() throws ServiceException {

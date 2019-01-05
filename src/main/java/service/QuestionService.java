@@ -1,35 +1,24 @@
 package service;
 
-import connection.MysqlConnection;
+import dao.IQuestionDAO;
 import exceptions.PersistException;
 import exceptions.ServiceException;
-import model.dao.QuestionDao;
-import model.dao.factory.DAOFactory;
+import dao.impl.MysqlQuestionDao;
+import dao.factory.DAOFactory;
 import model.entity.Question;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Locale;
 
 public class QuestionService {
     final static Logger logger = Logger.getLogger(QuestionService.class);
 
-    private QuestionDao questionDao;
+    private IQuestionDAO<Question, Integer> questionDao;
 
     public QuestionService() {
         System.out.println("QuestionService");
-        Connection connection = MysqlConnection.createConnection();
-        this.questionDao = DAOFactory.getInstance("mysql").getQuestionDao(connection);
-    }
-
-    public List<Question> getQuestions(String column, Object value) throws ServiceException {
-        try {
-            return questionDao.getListOfEntityBy(column, value);
-        } catch (PersistException e) {
-            logger.error("Exception getting question. \nError message: " + e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
+        this.questionDao = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getQuestionDao();
     }
 
     public List<Question> getQuestions(Integer themeId, Locale locale) throws ServiceException {

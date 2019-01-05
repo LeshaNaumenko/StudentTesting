@@ -1,13 +1,10 @@
 package model.entity;
 
-import connection.MysqlConnection;
 import utility.PasswordSecurity;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.sql.*;
 
 public class User implements Serializable {
     private int id;

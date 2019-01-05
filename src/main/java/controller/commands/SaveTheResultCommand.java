@@ -5,6 +5,7 @@ import model.entity.Question;
 import model.entity.Test;
 import model.entity.Theme;
 import model.entity.User;
+import service.ServiceFactory;
 import service.TestService;
 import service.ThemeService;
 import utility.LanguageManager;
@@ -22,11 +23,11 @@ public class SaveTheResultCommand extends Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
 
-        themeService = new ThemeService();
-        testService = new TestService();
+        LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
+        themeService = ServiceFactory.getThemeService();
+        testService = ServiceFactory.getTestService();
 
         User current = (User) req.getSession().getAttribute("user");
-        LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
         Integer size = (Integer) req.getSession().getAttribute("sizeOfListOfQuestion");
         Integer themeId = (Integer) req.getSession().getAttribute("theme_id_attribute");
         Date startTime = new Date((long) req.getSession().getAttribute("startTime"));

@@ -3,6 +3,7 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.User;
 import org.apache.log4j.Logger;
+import service.ServiceFactory;
 import service.ThemeService;
 import service.UserService;
 import utility.EmailValidator;
@@ -22,7 +23,7 @@ public class LoginCheckCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
-        userService = new UserService();
+        userService = ServiceFactory.getUserService();
         LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -49,7 +50,7 @@ public class LoginCheckCommand extends Command {
             //VERIFY
             req.getSession().setAttribute("user", user);
             req.getSession().setAttribute("role", user.getRole());
-            themeService = new ThemeService();
+            themeService = ServiceFactory.getThemeService();
             List<String> courses = themeService.getCourses();
             req.getSession().setAttribute("course_name_list", courses);
             req.getSession().setAttribute("comm", "GET_COURSES");

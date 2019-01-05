@@ -3,6 +3,7 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
+import service.ServiceFactory;
 import service.TestService;
 import service.UserService;
 
@@ -16,8 +17,8 @@ public class GetStudentResultCommand extends Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
 
-        testService = new TestService();
-        userService = new UserService();
+        testService = ServiceFactory.getTestService();
+        userService = ServiceFactory.getUserService();
         User student;
         String student_id = req.getParameter("student_id");
 
