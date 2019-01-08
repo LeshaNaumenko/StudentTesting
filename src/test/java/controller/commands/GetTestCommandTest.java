@@ -3,13 +3,11 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.Question;
 import model.entity.Theme;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import service.QuestionService;
-import service.TestService;
 import service.ThemeService;
 import utility.LanguageManager;
 
@@ -67,7 +65,7 @@ public class GetTestCommandTest {
         when(themeService.getThemeByID(anyInt())).thenReturn(EMPTY_THEME);
         GetTestCommand getTestCommand = new GetTestCommand(themeService, questionService);
         CommandResult execute = getTestCommand.execute(request, response);
-        Assert.assertEquals(execute.getPage(), expectedPage);
+        assertEquals(execute.getPage(), expectedPage);
     }
     @Parameterized.Parameters(name = " url: {0},  questions: {1}")
     public static Iterable<Object[]> data() {

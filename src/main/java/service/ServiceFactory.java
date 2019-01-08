@@ -13,4 +13,7 @@ public class ServiceFactory {
     public static ThemeService getThemeService () {
         return new ThemeService();
     }
+    public static AnswerService getAnswerService () {
+        return new AnswerService();
+    }
 }

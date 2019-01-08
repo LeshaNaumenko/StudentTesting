@@ -66,8 +66,8 @@ public class RegisterCommand extends Command {
                 .build()
         );
         req.getSession().setAttribute("user", newUser);
-        List<String> courses = themeService.getCourses();
-        req.getSession().setAttribute("course_name_list", courses);
+//        List<String> courses = themeService.getCourses();
+//        req.getSession().setAttribute("course_name_list", courses);
         req.getSession().setAttribute("comm", "GET_COURSES");
         return CommandResult.forward(TEST_PAGE);
     }

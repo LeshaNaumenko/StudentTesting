@@ -50,7 +50,7 @@ public class TestService {
         }
     }
 
-    public static int calculateTheGrade(int correctAnswers, int listSize) {
+    public int calculateTheGrade(int correctAnswers, int listSize) {
         int grade = Math.round((correctAnswers * 100) / listSize);
         return grade;
     }
@@ -64,5 +64,17 @@ public class TestService {
                     "Error message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    public long getDuration(long end, long start) {
+        return end - start;
+    }
+
+    public long getTheDifferenceSeconds(long duration) {
+        return duration / 1000 % 60;
+    }
+
+    public long getTheDifferenceMinutes(long duration) {
+        return duration / (60 * 1000) % 60;
     }
 }

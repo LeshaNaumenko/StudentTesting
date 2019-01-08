@@ -1,7 +1,5 @@
 package controller.commands;
 
-import model.entity.Theme;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +51,7 @@ public class GetCoursesNamesCommandTest {
         GetCoursesNamesCommand command = new GetCoursesNamesCommand(themeService);
         CommandResult execute = command.execute(request, response);
 
-        Assert.assertEquals(execute.getPage(), expectedPage);
+        assertEquals(execute.getPage(), expectedPage);
         verify(request.getSession(), times(1)).setAttribute(anyString(), any());
     }
 

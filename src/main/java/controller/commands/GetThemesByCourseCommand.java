@@ -25,11 +25,11 @@ public class GetThemesByCourseCommand extends Command {
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
 
         List<Theme> themesByCourse = themeService.getThemesByCourse(req.getParameter("course_name"));
-        if (themesByCourse != null) {
+        if (themesByCourse != null)
             req.getSession().setAttribute("themesByCourse", themesByCourse);
-        } else {
+        else
             req.setAttribute("error", languageManager.getMessage("no-tests"));
-        }
+
         return CommandResult.forward(TEST_PAGE);
     }
 }

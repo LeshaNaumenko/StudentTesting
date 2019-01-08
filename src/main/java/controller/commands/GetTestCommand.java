@@ -34,12 +34,13 @@ public class GetTestCommand extends Command {
         Integer time = theme.getTime();
         Locale locale = langManager.getLocale();
         List<Question> questionList = questionService.getQuestions(themeId, locale);
-        if (questionList != null) {
+        if (questionList == null||questionList.isEmpty()) {
+            req.getSession().setAttribute("error", langManager.getMessage("no-questions"));
+            return CommandResult.forward(ERROR_PAGE);
+
+        } else {
             setAttribute(req, themeId, time, questionList);
             return CommandResult.forward(TAKING_TEST_PAGE);
-        } else {
-            req.setAttribute("error", langManager.getMessage("no-questions"));
-            return CommandResult.forward(ERROR_PAGE);
         }
     }
 

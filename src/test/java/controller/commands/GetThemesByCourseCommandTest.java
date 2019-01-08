@@ -2,7 +2,6 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.Theme;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +53,7 @@ public class GetThemesByCourseCommandTest {
         when(themeService.getThemesByCourse(anyString())).thenReturn(themesByCourse);
         GetThemesByCourseCommand command = new GetThemesByCourseCommand(themeService);
         CommandResult execute = command.execute(request, response);
-        Assert.assertEquals(execute.getPage(), expectedPage);
+        assertEquals(execute.getPage(), expectedPage);
 
     }
     @Parameterized.Parameters(name = " url: {0},  questions: {1}")
