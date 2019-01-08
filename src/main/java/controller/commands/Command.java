@@ -11,13 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public abstract class Command {
-
-    UserService userService;
-    QuestionService questionService;
-    TestService testService;
-    ThemeService themeService;
-
+public abstract class Command implements CommandPages {
     public Command() {
 
     }

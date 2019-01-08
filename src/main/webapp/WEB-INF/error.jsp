@@ -8,7 +8,7 @@
 <fmt:setBundle basename="pagecontent.messages" />
 
 
-<h3 style="text-align:center;color: red;margin-top: 5%">Error page</h3>
+<h3 style="text-align:center;color: red;margin-top: 5%"><c:out value="${sessionScope.error}"/></h3>
 
 
 

@@ -8,6 +8,6 @@ import java.io.IOException;
 public class RegisterForward extends Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        return CommandResult.forward("WEB-INF/registration.jsp");
+        return CommandResult.forward(REGISTRATION_PAGE);
     }
 }

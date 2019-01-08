@@ -27,6 +27,9 @@
         </div>
 
         <div class="col-md-9 my-auto">
+            <c:if test="${not empty requestScope.error}">
+                <c:out value="${requestScope.error}"/>
+            </c:if>
             <c:if test="${not empty themesByCourse}">
                 <table class="table" border="2">
                     <thead class="thead-dark">

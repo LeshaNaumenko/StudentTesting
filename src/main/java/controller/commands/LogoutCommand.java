@@ -9,7 +9,7 @@ public class LogoutCommand extends Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
-        return CommandResult.redirect("login.jsp");
+        return CommandResult.redirect(LOGIN_PAGE);
 
     }
 }

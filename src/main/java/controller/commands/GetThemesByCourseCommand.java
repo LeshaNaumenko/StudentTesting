@@ -4,6 +4,7 @@ import exceptions.ServiceException;
 import model.entity.Theme;
 import service.ServiceFactory;
 import service.ThemeService;
+import utility.LanguageManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +13,23 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetThemesByCourseCommand extends Command {
+    private ThemeService themeService;
+    private LanguageManager languageManager;
+
+    public GetThemesByCourseCommand(ThemeService themeService) {
+        this.themeService = themeService;
+    }
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+        languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
 
-        themeService = ServiceFactory.getThemeService();
-        List<Theme> themesByCourse = themeService.getListOfEntityBy("course_name", req.getParameter("course_name"));
-        req.getSession().setAttribute("themesByCourse", themesByCourse);
-        return CommandResult.forward("WEB-INF/test.jsp");
+        List<Theme> themesByCourse = themeService.getThemesByCourse(req.getParameter("course_name"));
+        if (themesByCourse != null) {
+            req.getSession().setAttribute("themesByCourse", themesByCourse);
+        } else {
+            req.setAttribute("error", languageManager.getMessage("no-tests"));
+        }
+        return CommandResult.forward(TEST_PAGE);
     }
 }

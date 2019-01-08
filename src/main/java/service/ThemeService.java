@@ -27,11 +27,11 @@ public class ThemeService {
         return courseName;
     }
 
-    public List<Theme> getListOfEntityBy(String column, Object value) throws ServiceException {
+    public List<Theme> getThemesByCourse(Object value) throws ServiceException {
         try {
-            return themeDAO.getListOfEntityBy(column, value);
+            return themeDAO.getListOfEntityBy("course_name", value);
         } catch (PersistException e) {
-            logger.error("Exception getting themes by "+column+" with a value of "+value+". \nError message: " + e.getMessage());
+            logger.error("Exception getting themes by course_name with a value of "+value+". \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }

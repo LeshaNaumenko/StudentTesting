@@ -13,6 +13,9 @@ public class TestDTO {
     private Integer grade;
     private Test.Status status;
 
+    public TestDTO() {
+    }
+
     public int getTestId() {
         return testId;
     }

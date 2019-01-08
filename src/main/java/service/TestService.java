@@ -28,20 +28,11 @@ public class TestService {
 
     public Test createTest(Integer userId, Integer themeId, Integer grade, String startTime, String endTime, String testTime, String date) throws ServiceException {
         try {
-            System.out.println("userId="+ userId);
-            System.out.println("themeId="+ themeId);
-            System.out.println("grade="+ grade);
-            System.out.println("startTime="+ startTime);
-            System.out.println("endTime="+ endTime);
-            System.out.println("testTime="+ testTime);
-            System.out.println("date="+ date);
             Theme theme = themeDAO.getEntityBy("id", themeId);
             Test.Status status;
             if (grade > theme.getPassing_grade()) status = Test.Status.PASSED;
             else status = Test.Status.FAILED;
             Test test = new Test(userId, themeId, status, grade, startTime, endTime, testTime, date);
-            System.out.println(test);
-            System.out.println(test);
             return testDao.create(test);
         } catch (PersistException e) {
             logger.error("Exception when creating an tests. \nError message: " + e.getMessage());

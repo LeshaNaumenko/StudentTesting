@@ -19,13 +19,11 @@ import java.util.Date;
 import java.util.List;
 
 public class SaveTheResultCommand extends Command {
+    private ThemeService themeService = ServiceFactory.getThemeService();
+    private TestService testService = ServiceFactory.getTestService();
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
-
-        LanguageManager languageManager = (LanguageManager)req.getSession().getAttribute("appLocale");
-        themeService = ServiceFactory.getThemeService();
-        testService = ServiceFactory.getTestService();
 
         User current = (User) req.getSession().getAttribute("user");
         Integer size = (Integer) req.getSession().getAttribute("sizeOfListOfQuestion");
@@ -33,7 +31,6 @@ public class SaveTheResultCommand extends Command {
         Date startTime = new Date((long) req.getSession().getAttribute("startTime"));
         Date endTime = new Date(System.currentTimeMillis());
         List<Question> questionList = (List<Question>) req.getSession().getAttribute("listOfQuestion");
-
 
         //correct answers
         int trueCounter = 0;
@@ -52,15 +49,24 @@ public class SaveTheResultCommand extends Command {
         Test test = testService.createTest(current.getId(),themeId,grade, setFormatForDate(startTime), setFormatForDate(endTime),diffMinutes+":"+diffSeconds, setFormatForDate(startTime));
         Theme theme = themeService.getThemeByID(test.getTheme_id());
 
+        setAttribute(req, diffSeconds, diffMinutes, test, theme);
+        removeAttribute(req);
+        return CommandResult.forward(RESULT_OF_TEST);
+
+    }
+
+    private void removeAttribute(HttpServletRequest req) {
+        req.getSession().removeAttribute("startTime");
+        req.getSession().removeAttribute("endTime");
+    }
+
+    private void setAttribute(HttpServletRequest req, long diffSeconds, long diffMinutes, Test test, Theme theme) {
         req.setAttribute("test", test);
         req.setAttribute("theme", theme);
         req.setAttribute("minutes", diffMinutes);
         req.setAttribute("seconds", diffSeconds);
-        req.getSession().removeAttribute("startTime");
-        req.getSession().removeAttribute("endTime");
-        return CommandResult.forward("WEB-INF/resultOfTest.jsp");
-
     }
+
     private String setFormatForDate(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
