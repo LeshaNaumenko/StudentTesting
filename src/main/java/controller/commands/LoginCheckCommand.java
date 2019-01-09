@@ -16,12 +16,10 @@ import java.util.List;
 public class LoginCheckCommand extends Command {
     final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
     private UserService userService;
-    private ThemeService themeService;
     LanguageManager languageManager;
 
-    public LoginCheckCommand(UserService userService, ThemeService themeService) {
+    public LoginCheckCommand(UserService userService) {
         this.userService = userService;
-        this.themeService = themeService;
     }
 
     @Override
@@ -50,8 +48,6 @@ public class LoginCheckCommand extends Command {
     private void setAttribute(HttpServletRequest req, User user) {
         req.getSession().setAttribute("user", user);
         req.getSession().setAttribute("role", user.getRole());
-//        List<String> courses = themeService.getCourses();
-//        req.getSession().setAttribute("course_name_list", courses);
         req.getSession().setAttribute("comm", "GET_COURSES");
     }
 
@@ -63,6 +59,13 @@ public class LoginCheckCommand extends Command {
         return true;
     }
 
+    /**
+     *
+     * @param req
+     * @param email
+     * @param password
+     * @return validPassOrEmail. This variable  is used to immediately display all error messages.
+     */
     private boolean validation(HttpServletRequest req, String email, String password) {
         boolean validPassOrEmail = true;
         if (!EmailValidator.checkEmail(email)) {

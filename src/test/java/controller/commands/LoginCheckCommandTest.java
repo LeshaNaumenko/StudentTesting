@@ -9,7 +9,6 @@ import org.junit.runners.Parameterized;
 import service.ThemeService;
 import service.UserService;
 import utility.LanguageManager;
-import utility.PasswordSecurity;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,12 +25,8 @@ public class LoginCheckCommandTest {
 
     private static final User USER = new User.Builder().setId(1).setFirstName("Alex").setLastName("Naumenko")
             .setEmail("naymenko213@gmail.com").setPassword("3123532Kkl").setRole(User.Role.USER).build();
-    //    private static final User ADMINISTRATOR = new User(2, "Dmytro", "Naumenko", "naum9@gmail.com", "31235Kl32", User.Role.ADMIN);
-    private static final User INCORRECT_EMAIL_USER = new User(3, "Yaroslav", "Naumenko", "naum9gmail.com", "312Jj3532", User.Role.USER);
-    private static final User WRONG_PASSWORD_USER = new User(4, "Jack", "Naumenko", "naum9@gmail.com", "312332", User.Role.USER);
-    private static final User INCORRECT_USERNAME_USER = new User(5, "Lena", "naumenko", "naum9@gmail.com", "3123Jjc532", User.Role.USER);
     private static final String CORRECT_PASSWORD = "3123532Kkl";
-    private static final String INCORRECT_PASSWORD = "1234JKf2";
+    private static final String INCORRECT_PASSWORD = "1234JK2a";
     private static final String INVALID_PASSWORD = "123";
     private static final String INVALID_EMAIL =  "naum9009gmail.com";
     private static final String CORRECT_EMAIL =  "naymenko213@gmail.com";
@@ -40,7 +35,6 @@ public class LoginCheckCommandTest {
     private HttpServletResponse response;
     private HttpSession session;
     private UserService userService;
-    private ThemeService themeService;
     private LanguageManager languageManager;
 
     @Parameterized.Parameter()
@@ -58,7 +52,6 @@ public class LoginCheckCommandTest {
         response = mock(HttpServletResponse.class);
         session = mock(HttpSession.class);
         userService = mock(UserService.class);
-        themeService = mock(ThemeService.class);
         languageManager = LanguageManager.INSTANCE;
     }
 
@@ -70,14 +63,14 @@ public class LoginCheckCommandTest {
         when(request.getParameter(anyString())).thenReturn(emailFromForm, passwordFromForm);
         when(userService.getUserBy(anyString(), anyString())).thenReturn(usersInDB);
 
-        LoginCheckCommand command = new LoginCheckCommand(userService, themeService);
+        LoginCheckCommand command = new LoginCheckCommand(userService);
 
         CommandResult execute = command.execute(request, response);
 
         assertEquals(execute.getPage(), expectedPage);
     }
 
-    @Parameterized.Parameters(name = " url: {0},  users: {1}")
+    @Parameterized.Parameters(name = " url: {0},  user: {1}, email: {2}, password: {3}")
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {CommandPages.LOGIN_PAGE, USER, CORRECT_EMAIL, INVALID_PASSWORD},

@@ -38,6 +38,18 @@ public class Test implements Serializable {
         this.date = date;
     }
 
+    public Test(Builder builder) {
+        id = builder.id;
+         user_id = builder.user_id;
+         theme_id = builder.theme_id;
+         status = builder.status;
+         grade = builder.grade;
+         start_time = builder.start_time;
+         end_time = builder.end_time;
+         test_time = builder.test_time;
+         date = builder.date;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -128,6 +140,66 @@ public class Test implements Serializable {
     public enum Status{
         PASSED,
         FAILED
+    }
+    public static class Builder{
+        private Integer id;
+        private Integer user_id;
+        private Integer theme_id;
+        private Status status;
+        private Integer grade;
+        private String start_time;
+        private String end_time;
+        private String test_time;
+        private String date;
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setUserId(Integer user_id) {
+            this.user_id = user_id;
+            return this;
+        }
+
+        public Builder setThemeId(Integer theme_id) {
+            this.theme_id = theme_id;
+            return this;
+        }
+
+        public Builder setStatus(Status status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder setGrade(Integer grade) {
+            this.grade = grade;
+            return this;
+        }
+
+        public Builder setStartTime(String start_time) {
+            this.start_time = start_time;
+            return this;
+        }
+
+        public Builder setEndTime(String end_time) {
+            this.end_time = end_time;
+            return this;
+        }
+
+        public Builder setTestTime(String test_time) {
+            this.test_time = test_time;
+            return this;
+        }
+
+        public Builder setDate(String date) {
+            this.date = date;
+            return this;
+        }
+
+        public Test build(){
+            return new Test(this);
+        }
     }
 }
 

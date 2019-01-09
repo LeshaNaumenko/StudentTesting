@@ -17,7 +17,7 @@ import java.util.List;
 public class TestService {
     final static Logger logger = Logger.getLogger(TestService.class);
 
-    ITestDAO<Test,Integer> testDao;
+    ITestDAO<Test, Integer> testDao;
     IThemeDAO<Theme, Integer> themeDAO;
 
     public TestService() {
@@ -26,13 +26,20 @@ public class TestService {
         this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
     }
 
-    public Test createTest(Integer userId, Integer themeId, Integer grade, String startTime, String endTime, String testTime, String date) throws ServiceException {
+    public Test.Status calculateStatus(int grade, Integer themeId) throws ServiceException {
         try {
             Theme theme = themeDAO.getEntityBy("id", themeId);
-            Test.Status status;
-            if (grade > theme.getPassing_grade()) status = Test.Status.PASSED;
-            else status = Test.Status.FAILED;
-            Test test = new Test(userId, themeId, status, grade, startTime, endTime, testTime, date);
+            if (grade > theme.getPassing_grade()) return Test.Status.PASSED;
+            return Test.Status.FAILED;
+        } catch (PersistException e) {
+            logger.error("Exception when calculate status. \nError message: " + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public Test createTest(Test test) throws ServiceException {
+        try {
+//             new Test(userId, themeId, status, grade, startTime, endTime, testTime, date);
             return testDao.create(test);
         } catch (PersistException e) {
             logger.error("Exception when creating an tests. \nError message: " + e.getMessage());
@@ -77,4 +84,5 @@ public class TestService {
     public long getTheDifferenceMinutes(long duration) {
         return duration / (60 * 1000) % 60;
     }
+
 }

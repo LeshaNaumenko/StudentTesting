@@ -33,7 +33,6 @@
             <%
                 int counte = 0;
                 List<Question> questionList = (List<Question>) request.getSession().getAttribute("listOfQuestion");
-                request.getSession().setAttribute("sizeOfListOfQuestion", questionList.size());
             %>
             <c:set var="counter" value="0"/>
             <c:forEach var="question" items="${listOfQuestion}">
