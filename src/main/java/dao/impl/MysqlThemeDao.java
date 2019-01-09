@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.IThemeDAO;
+import exceptions.PersistException;
 import model.entity.Theme;
 import org.apache.log4j.Logger;
 
@@ -49,18 +50,22 @@ public class MysqlThemeDao extends AbstractDao<Theme, Integer> implements ITheme
         return courses;
     }
 
-    public List<String> getCourseName() {
+    public List<String> getCourseName() throws PersistException {
         List<String> courses = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_COURSES_NAME)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 courses.add(resultSet.getString(1));
             }
-            return (courses.size() != 0) ? courses : null;
+            if (courses.size() == 0) {
+                logger.error("Exception on get course name. List is empty.");
+                throw new PersistException("Exception on get course name. List is empty.");
+            }
+            return courses;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception on get course name. \nError message: " + e.getMessage());
+            throw new PersistException(e);
         }
-        return null;
     }
 
     @Override

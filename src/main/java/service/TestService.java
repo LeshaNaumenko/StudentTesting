@@ -17,19 +17,19 @@ import java.util.List;
 public class TestService {
     final static Logger logger = Logger.getLogger(TestService.class);
 
-    ITestDAO<Test, Integer> testDao;
-    IThemeDAO<Theme, Integer> themeDAO;
+    private ITestDAO<Test, Integer> testDao;
+    private IThemeDAO<Theme, Integer> themeDAO;
 
-    public TestService() {
-        System.out.println("TestService");
-        this.testDao = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getTestDao();
-        this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
+    public TestService(ITestDAO<Test, Integer> testDao, IThemeDAO<Theme, Integer> themeDAO) {
+        this.testDao = testDao;
+        this.themeDAO = themeDAO;
     }
+
 
     public Test.Status calculateStatus(int grade, Integer themeId) throws ServiceException {
         try {
             Theme theme = themeDAO.getEntityBy("id", themeId);
-            if (grade > theme.getPassing_grade()) return Test.Status.PASSED;
+            if (grade >= theme.getPassing_grade()) return Test.Status.PASSED;
             return Test.Status.FAILED;
         } catch (PersistException e) {
             logger.error("Exception when calculate status. \nError message: " + e.getMessage());
@@ -39,7 +39,6 @@ public class TestService {
 
     public Test createTest(Test test) throws ServiceException {
         try {
-//             new Test(userId, themeId, status, grade, startTime, endTime, testTime, date);
             return testDao.create(test);
         } catch (PersistException e) {
             logger.error("Exception when creating an tests. \nError message: " + e.getMessage());
@@ -57,9 +56,10 @@ public class TestService {
         }
     }
 
-    public int calculateTheGrade(int correctAnswers, int listSize) {
-        int grade = Math.round((correctAnswers * 100) / listSize);
-        return grade;
+    public int calculateTheGrade(int correctAnswers, int listSize) throws ServiceException {
+        if (listSize==0)
+            throw new ServiceException("Argument 'listSize' is 0");
+        return (int) Math.round((double) (correctAnswers * 100) / listSize);
     }
 
 
@@ -73,7 +73,9 @@ public class TestService {
         }
     }
 
-    public long getDuration(long end, long start) {
+    public long getDuration(long end, long start) throws ServiceException {
+        if (start>end)
+            throw new ServiceException("Argument 'start' > 'end' ");
         return end - start;
     }
 
@@ -84,5 +86,4 @@ public class TestService {
     public long getTheDifferenceMinutes(long duration) {
         return duration / (60 * 1000) % 60;
     }
-
 }

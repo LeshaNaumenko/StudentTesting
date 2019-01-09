@@ -1,5 +1,6 @@
 package controller.commands;
 
+import exceptions.PaginationException;
 import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
@@ -15,11 +16,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetStudentResultCommand extends Command {
-    private UserService userService ;
-    private TestService testService ;
+    private UserService userService;
+    private TestService testService;
     private LanguageManager languageManager;
     public static final int RECORDS_ON_THE_PAGE = 5;
-
 
 
     public GetStudentResultCommand(UserService userService, TestService testService) {
@@ -42,14 +42,18 @@ public class GetStudentResultCommand extends Command {
 
         checkCurrentPageStr(req, currentPageStr);
         currentPage = (int) req.getSession().getAttribute("currentPage");
+        try {
+            pagination = new Pagination(RECORDS_ON_THE_PAGE, currentPage);
+            List<TestDTO> testDTOList = testService.getResultsById(student.getId(), pagination.calculateStart(), RECORDS_ON_THE_PAGE);
+            if (testDTOList == null || testDTOList.isEmpty()) {
+                return sendError(req);
+            }
+            int rows = testService.getNumberOfRows(student.getId());
 
-        pagination = new Pagination(RECORDS_ON_THE_PAGE, currentPage);
-        List<TestDTO> testDTOList = testService.getResultsById(student.getId(), pagination.calculateStart(), RECORDS_ON_THE_PAGE);
-        if (testDTOList == null||testDTOList.isEmpty()) {
+            setAttribute(req, pagination, testDTOList, rows);
+        } catch (PaginationException e) {
             return sendError(req);
         }
-        int rows = testService.getNumberOfRows(student.getId());
-        setAttribute(req, pagination, testDTOList, rows);
         return CommandResult.forward(RESULTS_PAGE);
     }
 
@@ -70,7 +74,7 @@ public class GetStudentResultCommand extends Command {
         }
     }
 
-    private void setAttribute(HttpServletRequest req, Pagination pagination, List<TestDTO> testDTOList, int rows) {
+    private void setAttribute(HttpServletRequest req, Pagination pagination, List<TestDTO> testDTOList, int rows) throws PaginationException {
         req.setAttribute("noOfPages", pagination.calculateNumOfPages(rows));
         req.getSession().setAttribute("currentPage", pagination.getCurrentPage());
         req.setAttribute("recordsPerPage", pagination.getRecordsPerPage());

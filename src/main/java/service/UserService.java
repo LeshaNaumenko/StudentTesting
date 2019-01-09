@@ -14,9 +14,7 @@ public class UserService {
 
     private IUserDAO<User, Integer> userDAO;
 
-    public UserService() {
-        DAOFactory instance = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB);
-        IUserDAO<User, Integer> userDAO = instance.getUserDAO();
+    public UserService(IUserDAO<User, Integer> userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -47,19 +45,4 @@ public class UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
-
-    private boolean isEmpty(List<User> users) {
-        return (users == null || users.size() == 0);
-    }
-
-
-  /*  public static void main(String[] args) throws NoSuchProviderException, NoSuchAlgorithmException {
-        String pass = "18101996Lesha";
-        byte[] salt = getSalt();
-        String securePassword = getSecurePassword(pass, salt);
-
-        System.out.println(new String(salt, StandardCharsets.UTF_8));
-        System.out.println(securePassword);
-
-    }*/
 }

@@ -1,5 +1,6 @@
 package controller.commands;
 
+import exceptions.ServiceException;
 import service.ThemeService;
 import utility.LanguageManager;
 
@@ -19,9 +20,9 @@ public class GetCoursesNamesCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
-
+        System.out.println(themeService);
         List<String> courses = themeService.getCourses();
         if (courses == null) {
             return sendError(req);

@@ -10,24 +10,24 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 public class ThemeService {
-    final static Logger logger = Logger.getLogger(ThemeService.class);
+    private final static Logger logger = Logger.getLogger(ThemeService.class);
 
     private IThemeDAO<Theme, Integer> themeDAO;
 
-    public ThemeService() {
-        this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
+    public ThemeService(IThemeDAO<Theme, Integer> themeDAO) {
+        this.themeDAO = themeDAO;
     }
 
-
-    public List<String> getCourses(){
-        List<String> courseName = themeDAO.getCourseName();
-        if (courseName.size()==0){
-            return null;
+    public List<String> getCourses() throws ServiceException {
+        try {
+            return themeDAO.getCourseName();
+        } catch (PersistException e) {
+            logger.error("Exception getting all course names\nError message: " + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
         }
-        return courseName;
     }
 
-    public List<Theme> getThemesByCourse(Object value) throws ServiceException {
+    public List<Theme> getThemesByCourse(String value) throws ServiceException {
         try {
             return themeDAO.getListOfEntityBy("course_name", value);
         } catch (PersistException e) {

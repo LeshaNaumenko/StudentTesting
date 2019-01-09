@@ -1,5 +1,6 @@
 package controller.commands;
 
+import exceptions.ServiceException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +44,7 @@ public class GetCoursesNamesCommandTest {
 
     }
     @Test
-    public void shouldReturnCorrectRedirect() throws ServletException, IOException {
+    public void shouldReturnCorrectRedirect() throws ServletException, IOException, ServiceException {
         when(request.getSession()).thenReturn(session);
         when(request.getSession().getAttribute("appLocale")).thenReturn(languageManager);
         when(themeService.getCourses()).thenReturn(courseNames);

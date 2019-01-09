@@ -31,7 +31,7 @@ public abstract class AbstractDao<T, K>  {
 
     public T create(T object) throws PersistException {
         T persistInstance = null;
-        Integer id;
+        int id;
         String sql = getCreateQuery();
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatementForInsert(statement, object);

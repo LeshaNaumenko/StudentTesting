@@ -16,9 +16,8 @@ public class QuestionService {
 
     private IQuestionDAO<Question, Integer> questionDao;
 
-    public QuestionService() {
-        System.out.println("QuestionService");
-        this.questionDao = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getQuestionDao();
+    public QuestionService(IQuestionDAO<Question, Integer> questionDao) {
+        this.questionDao = questionDao;
     }
 
     public List<Question> getQuestions(Integer themeId, Locale locale) throws ServiceException {

@@ -15,26 +15,24 @@ public class AnswerService {
     public List<Answer> getAnswers(List<Question> questionList, List<String> parameters) {
         ArrayList<Answer> answers = new ArrayList<>();
 
-        for (int i = 0; i < questionList.size(); i++) {
-            if (questionList.get(i).getCorrect_option().equals(parameters.get(i))) {
-                answers.add(new Answer.Builder()
-                        .setId(i)
-                        .setQuestion(questionList.get(i).getDescriptionOfQuestion())
-                        .setCorrectAnswer(questionList.get(i).getCorrect_option())
-                        .setUserAnswer(parameters.get(i))
-                        .setStatus(Answer.AnswerStatus.CORRECT)
-                        .build());
+        for (int counter = 0; counter < questionList.size(); counter++) {
+            if (questionList.get(counter).getCorrect_option().equals(parameters.get(counter))) {
+                answers.add(createAnswer(questionList, parameters, counter, Answer.AnswerStatus.CORRECT));
             }else {
-                answers.add(new Answer.Builder()
-                        .setId(i)
-                        .setQuestion(questionList.get(i).getDescriptionOfQuestion())
-                        .setCorrectAnswer(questionList.get(i).getCorrect_option())
-                        .setUserAnswer(parameters.get(i))
-                        .setStatus(Answer.AnswerStatus.INCORRECT)
-                        .build());
+                answers.add(createAnswer(questionList, parameters, counter, Answer.AnswerStatus.INCORRECT));
             }
         }
         return answers;
+    }
+
+    private Answer createAnswer(List<Question> questionList, List<String> parameters, int counter, Answer.AnswerStatus incorrect) {
+        return new Answer.Builder()
+                .setId(counter)
+                .setQuestion(questionList.get(counter).getDescriptionOfQuestion())
+                .setCorrectAnswer(questionList.get(counter).getCorrect_option())
+                .setUserAnswer(parameters.get(counter))
+                .setStatus(incorrect)
+                .build();
     }
 
     public int getRightAnswers(List<Answer> answers) {
