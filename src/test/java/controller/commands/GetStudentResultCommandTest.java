@@ -77,7 +77,7 @@ public class GetStudentResultCommandTest {
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {CommandPages.ERROR_PAGE, null, 1},
-                {CommandPages.RESULTS_PAGE, Arrays.asList(new TestDTO.TestBuilder()
+                {CommandPages.RESULTS_PAGE, Arrays.asList(new TestDTO.TestDTOBuilder()
                         .setCourseName("test").build()), 2 }
         });
     }

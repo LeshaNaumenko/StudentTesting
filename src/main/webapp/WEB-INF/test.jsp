@@ -46,10 +46,10 @@
                         <tr>
                             <th scope="row"><c:out value="${theme.id}"/></th>
                             <td><a class="nav-link" href="/test?theme_id=<c:out value="${theme.id}"/>&command=GET_TEST"/>
-                                <c:out value="${theme.theme_name}"/></td>
-                            <td><c:out value="${theme.course_name}"/></td>
+                                <c:out value="${theme.themeName}"/></td>
+                            <td><c:out value="${theme.courseName}"/></td>
                             <td><c:out value="${theme.time}"/></td>
-                            <td><c:out value="${theme.passing_grade}"/></td>
+                            <td><c:out value="${theme.passingGrade}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>

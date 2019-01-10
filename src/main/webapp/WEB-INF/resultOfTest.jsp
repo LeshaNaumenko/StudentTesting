@@ -20,7 +20,7 @@
             <tbody>
             <tr>
                 <th scope="row" class="table-active"><fmt:message key="theme-result-of-test"/></th>
-                <td class="table-active">${theme.theme_name}</td>
+                <td class="table-active">${theme.themeName}</td>
 
             </tr>
             <tr>
@@ -30,12 +30,12 @@
             </tr>
             <tr>
                 <th scope="row" class="table-active"><fmt:message key="start-testing-result-of-test"/></th>
-                <fmt:parseDate value="${test.start_time}" pattern="yyyy-MM-dd HH:mm:ss" var="Start"/>
+                <fmt:parseDate value="${test.startTime}" pattern="yyyy-MM-dd HH:mm:ss" var="Start"/>
                 <td class="table-active"><fmt:formatDate type="time" value="${Start}"/></td>
             </tr>
             <tr>
                 <th scope="row"><fmt:message key="end-testing-result-of-test"/></th>
-                <fmt:parseDate value="${test.end_time}" pattern="yyyy-MM-dd HH:mm:ss" var="End"/>
+                <fmt:parseDate value="${test.endTime}" pattern="yyyy-MM-dd HH:mm:ss" var="End"/>
                 <td><fmt:formatDate type="time" value="${End}"/></td>
             </tr>
             <tr>
@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <th scope="row" class="table-active"><fmt:message key="passing-score-result-of-test"/></th>
-                <td class="table-active">${theme.passing_grade}%</td>
+                <td class="table-active">${theme.passingGrade}%</td>
             </tr>
             <tr>
                 <th scope="row"><fmt:message key="your-score-result-of-test"/></th>
@@ -60,7 +60,7 @@
             </tr>
             <tr>
                 <c:choose>
-                    <c:when test="${test.grade lt theme.passing_grade }">
+                    <c:when test="${test.grade lt theme.passingGrade }">
                         <th scope="row" class="bg-danger"><fmt:message key="status-result-of-test"/></th>
                         <td class="bg-danger"><b><fmt:message key="FAILED"/></b></td>
                     </c:when>

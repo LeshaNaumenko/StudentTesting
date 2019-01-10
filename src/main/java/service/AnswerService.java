@@ -16,7 +16,7 @@ public class AnswerService {
         ArrayList<Answer> answers = new ArrayList<>();
 
         for (int counter = 0; counter < questionList.size(); counter++) {
-            if (questionList.get(counter).getCorrect_option().equals(parameters.get(counter))) {
+            if (questionList.get(counter).getCorrectOption().equals(parameters.get(counter))) {
                 answers.add(createAnswer(questionList, parameters, counter, Answer.AnswerStatus.CORRECT));
             }else {
                 answers.add(createAnswer(questionList, parameters, counter, Answer.AnswerStatus.INCORRECT));
@@ -29,7 +29,7 @@ public class AnswerService {
         return new Answer.Builder()
                 .setId(counter)
                 .setQuestion(questionList.get(counter).getDescriptionOfQuestion())
-                .setCorrectAnswer(questionList.get(counter).getCorrect_option())
+                .setCorrectAnswer(questionList.get(counter).getCorrectOption())
                 .setUserAnswer(parameters.get(counter))
                 .setStatus(incorrect)
                 .build();

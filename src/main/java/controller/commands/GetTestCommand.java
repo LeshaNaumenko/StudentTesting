@@ -45,7 +45,7 @@ public class GetTestCommand extends Command {
     }
 
     private void setAttribute(HttpServletRequest req, Integer themeId, Integer time, List<Question> questionList) {
-        req.setAttribute("test_time", time);
+        req.setAttribute("user_time", time);
         req.getSession().setAttribute("startTime", System.currentTimeMillis());
         req.getSession().setAttribute("listOfQuestion", questionList);
         req.getSession().setAttribute("theme_id_attribute", themeId);

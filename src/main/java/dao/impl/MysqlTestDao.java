@@ -33,17 +33,18 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         List<Test> tests = new ArrayList<>();
 
         while (resultSet.next()) {
-            tests.add(new Test(
-                    resultSet.getInt(1),
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    Test.Status.valueOf(resultSet.getString(4)),
-                    resultSet.getInt(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7),
-                    resultSet.getString(8),
-                    resultSet.getString(9)
-            ));
+            tests.add(new Test.Builder()
+                            .setId(resultSet.getInt(1))
+                            .setUserId(resultSet.getInt(2))
+                            .setThemeId(resultSet.getInt(3))
+                            .setStatus(Test.Status.valueOf(resultSet.getString(4)))
+                            .setGrade(resultSet.getInt(5))
+                            .setStartTime(resultSet.getString(6))
+                            .setEndTime(resultSet.getString(7))
+                            .setUserTime(resultSet.getString(8))
+                            .setDate(resultSet.getString(9))
+                            .build()
+        );
         }
         return tests;
     }
@@ -75,13 +76,13 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Test entity) throws SQLException {
-        statement.setInt(1, entity.getUser_id());
-        statement.setInt(2, entity.getTheme_id());
+        statement.setInt(1, entity.getUserId());
+        statement.setInt(2, entity.getThemeId());
         statement.setString(3, entity.getStatus().name());
         statement.setInt(4, entity.getGrade());
-        statement.setString(5, entity.getStart_time());
-        statement.setString(6, entity.getEnd_time());
-        statement.setString(7, entity.getTest_time());
+        statement.setString(5, entity.getStartTime());
+        statement.setString(6, entity.getEndTime());
+        statement.setString(7, entity.getUserTime());
         statement.setString(8, entity.getDate());
     }
 
@@ -99,7 +100,7 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
             preparedStatement.setInt(3, recordsPerPage);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                listTestDTO.add(new TestDTO.TestBuilder()
+                listTestDTO.add(new TestDTO.TestDTOBuilder()
                         .setTestId(resultSet.getInt(1))
                         .setCourseName(resultSet.getString(2))
                         .setThemeName(resultSet.getString(3))

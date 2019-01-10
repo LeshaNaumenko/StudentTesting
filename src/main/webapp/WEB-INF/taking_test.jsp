@@ -84,7 +84,7 @@
     </form>
 </div>
 <script>
-    var timer2 = "<c:out value="${requestScope.test_time}:00" />";
+    var timer2 = "<c:out value="${requestScope.user_time}:00" />";
     var interval = setInterval(function() {
         var timer = timer2.split(':');
         var minutes = parseInt(timer[0], 10);

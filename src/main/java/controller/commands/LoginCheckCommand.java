@@ -3,7 +3,6 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.User;
 import org.apache.log4j.Logger;
-import service.ThemeService;
 import service.UserService;
 import utility.*;
 
@@ -11,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 public class LoginCheckCommand extends Command {
     final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
@@ -34,7 +32,7 @@ public class LoginCheckCommand extends Command {
         User user = userService.getUserBy("email", req.getParameter("email"));
         if (!existsUser(user, req))return CommandResult.forward(LOGIN_PAGE);
 
-        boolean verifyUserPassword = PasswordSecurity.verifyUserPassword(password, user.getPassword(), user.getSalt());
+        boolean verifyUserPassword = PasswordSecurity.verifyUserPassword(password, user.getHash(), user.getSalt());
         if (verifyUserPassword) {
             logger.info("user[" + user.getId() + "] logged in");
             setAttribute(req, user);

@@ -4,9 +4,6 @@ import dao.ITestDAO;
 import dao.IThemeDAO;
 import exceptions.PersistException;
 import exceptions.ServiceException;
-import dao.impl.MysqlTestDao;
-import dao.impl.MysqlThemeDao;
-import dao.factory.DAOFactory;
 import model.entity.Test;
 import model.entity.TestDTO;
 import model.entity.Theme;
@@ -29,7 +26,7 @@ public class TestService {
     public Test.Status calculateStatus(int grade, Integer themeId) throws ServiceException {
         try {
             Theme theme = themeDAO.getEntityBy("id", themeId);
-            if (grade >= theme.getPassing_grade()) return Test.Status.PASSED;
+            if (grade >= theme.getPassingGrade()) return Test.Status.PASSED;
             return Test.Status.FAILED;
         } catch (PersistException e) {
             logger.error("Exception when calculate status. \nError message: " + e.getMessage());

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @RunWith(Parameterized.class)
 public class RegisterCommandTest {
     private static final User USER = new User.Builder().setId(1).setFirstName("Alex").setLastName("Naumenko")
-            .setEmail("naymenko213@gmail.com").setPassword("3123532Kkl").setRole(User.Role.USER).build();
+            .setEmail("naymenko213@gmail.com").setHash("3123532Kkl").setRole(User.Role.USER).build();
     private static final String CORRECT_PASSWORD = "3123532Kkl";
     private static final String INVALID_PASSWORD = "123";
     private static final String INVALID_EMAIL =  "naumgmail.com";

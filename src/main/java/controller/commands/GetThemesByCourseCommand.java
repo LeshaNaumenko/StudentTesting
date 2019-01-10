@@ -24,8 +24,9 @@ public class GetThemesByCourseCommand extends Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
 
+            String course_name = req.getParameter("course_name");
         List<Theme> themesByCourse = themeService.getThemesByCourse(req.getParameter("course_name"));
-        if (themesByCourse != null)
+        if (themesByCourse != null||themesByCourse.isEmpty())
             req.getSession().setAttribute("themesByCourse", themesByCourse);
         else
             req.setAttribute("error", languageManager.getMessage("no-tests"));

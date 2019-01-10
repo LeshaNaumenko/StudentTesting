@@ -51,11 +51,11 @@ public class SaveTheResultCommand extends Command {
                 .setGrade(grade)
                 .setStartTime(setFormatForDate(startTime))
                 .setEndTime(setFormatForDate(endTime))
-                .setTestTime(diffMinutes + ":" + diffSeconds)
+                .setUserTime(diffMinutes + ":" + diffSeconds)
                 .setDate(setFormatForDate(startTime))
                 .build()
         );
-        Theme theme = themeService.getThemeByID(test.getTheme_id());
+        Theme theme = themeService.getThemeByID(test.getThemeId());
 
         setAttribute(req, diffSeconds, diffMinutes, test, theme, answers);
         removeAttribute(req);

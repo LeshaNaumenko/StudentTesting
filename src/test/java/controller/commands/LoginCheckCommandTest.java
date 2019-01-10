@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import service.ThemeService;
 import service.UserService;
 import utility.LanguageManager;
 import javax.servlet.ServletException;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class LoginCheckCommandTest {
 
     private static final User USER = new User.Builder().setId(1).setFirstName("Alex").setLastName("Naumenko")
-            .setEmail("naymenko213@gmail.com").setPassword("3123532Kkl").setRole(User.Role.USER).build();
+            .setEmail("naymenko213@gmail.com").setHash("3123532Kkl").setRole(User.Role.USER).build();
     private static final String CORRECT_PASSWORD = "3123532Kkl";
     private static final String INCORRECT_PASSWORD = "1234JK2a";
     private static final String INVALID_PASSWORD = "123";

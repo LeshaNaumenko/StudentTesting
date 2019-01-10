@@ -1,92 +1,204 @@
 package model.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
+/**
+ * Class {@code Theme} represents the Theme model. This model class can be used throughout all
+ * layers, the data layer, the controller layer and the view layer.
+ *
+ * @author Alex Naumenko
+ */
 public class Theme implements Serializable {
-
+    /**
+     * Id of Theme.
+     */
     private Integer id;
-    private String course_name;
-    private String theme_name;
-    private Integer time;
-    private Integer passing_grade;
 
+    /**
+     * Course name of Theme.
+     */
+    private String courseName;
+
+    /**
+     * Theme name of Theme.
+     */
+    private String themeName;
+
+    /**
+     * Time of Theme.
+     */
+    private Integer time;
+
+    /**
+     * Passing grade of Theme.
+     */
+    private Integer passingGrade;
+
+    /**
+     * Default constructor.
+     */
     public Theme() {
     }
 
-    public Theme(Integer id, String course_name, String theme_name, Integer time, Integer passing_grade) {
+    /**
+     * Constructor of the theme with parameters.
+     *
+     * @param id           of Test
+     * @param courseName   of Test
+     * @param themeName    of Test
+     * @param time         of Test
+     * @param passingGrade of Test
+     */
+    public Theme(Integer id, String courseName, String themeName, Integer time, Integer passingGrade) {
         this.id = id;
-        this.course_name = course_name;
-        this.theme_name = theme_name;
+        this.courseName = courseName;
+        this.themeName = themeName;
         this.time = time;
-        this.passing_grade = passing_grade;
+        this.passingGrade = passingGrade;
     }
 
+    /**
+     * Returns id of Theme.
+     *
+     * @return id of Theme.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set new id to Theme
+     *
+     * @param id of Theme
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getCourse_name() {
-        return course_name;
+    /**
+     * Returns course name of Theme.
+     *
+     * @return course name of Theme.
+     */
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCourse_name(String course_name) {
-        this.course_name = course_name;
+    /**
+     * Set new course name to Theme
+     *
+     * @param courseName of Theme
+     */
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public String getTheme_name() {
-        return theme_name;
+    /**
+     * Returns theme name of Theme.
+     *
+     * @return theme name of Theme.
+     */
+    public String getThemeName() {
+        return themeName;
     }
 
-    public void setTheme_name(String theme_name) {
-        this.theme_name = theme_name;
+    /**
+     * Set new theme name to Theme
+     *
+     * @param themeName of Theme
+     */
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
     }
 
+    /**
+     * Returns time of Theme.
+     *
+     * @return time of Theme.
+     */
     public Integer getTime() {
         return time;
     }
 
+    /**
+     * Set new time to Theme
+     *
+     * @param time of Theme
+     */
     public void setTime(Integer time) {
         this.time = time;
     }
 
-    public Integer getPassing_grade() {
-        return passing_grade;
+    /**
+     * Returns passing grade of Theme.
+     *
+     * @return passing grade of Theme.
+     */
+    public Integer getPassingGrade() {
+        return passingGrade;
     }
 
-    public void setPassing_grade(Integer passing_grade) {
-        this.passing_grade = passing_grade;
+    /**
+     * Set new passing grade to Theme
+     *
+     * @param passingGrade of Theme
+     */
+    public void setPassingGrade(Integer passingGrade) {
+        this.passingGrade = passingGrade;
     }
 
-    @Override
-    public String toString() {
-        return "Theme{" +
-                "id=" + id +
-                ", course_name='" + course_name + '\'' +
-                ", theme_name='" + theme_name + '\'' +
-                ", time=" + time +
-                ", passing_grade=" + passing_grade +
-                '}';
-    }
-
+    /**
+     * Indicates whether some other theme is "equal to" this one.
+     *
+     * @param o the reference object with which to compare.
+     * @return {@code true} if this object is the same
+     * as the o argument; {@code false} otherwise.
+     * @see #hashCode()
+     * @see java.util.HashMap
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Theme theme = (Theme) o;
-        return Objects.equals(id, theme.id) &&
-                Objects.equals(course_name, theme.course_name) &&
-                Objects.equals(theme_name, theme.theme_name) &&
-                Objects.equals(time, theme.time) &&
-                Objects.equals(passing_grade, theme.passing_grade);
+
+        if (id != null ? !id.equals(theme.id) : theme.id != null) return false;
+        if (courseName != null ? !courseName.equals(theme.courseName) : theme.courseName != null) return false;
+        if (themeName != null ? !themeName.equals(theme.themeName) : theme.themeName != null) return false;
+        if (time != null ? !time.equals(theme.time) : theme.time != null) return false;
+        return passingGrade != null ? passingGrade.equals(theme.passingGrade) : theme.passingGrade == null;
     }
 
+    /**
+     * Returns a hash code value for the theme.
+     *
+     * @return a hash code value for this theme.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(id, course_name, theme_name, time, passing_grade);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (courseName != null ? courseName.hashCode() : 0);
+        result = 31 * result + (themeName != null ? themeName.hashCode() : 0);
+        result = 31 * result + (time != null ? time.hashCode() : 0);
+        result = 31 * result + (passingGrade != null ? passingGrade.hashCode() : 0);
+        return result;
     }
+
+    /**
+     * Returns a string representation of the theme.
+     *
+     * @return a string representation of the theme.
+     */
+    @Override
+    public String toString() {
+        return "Theme{" +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
+                ", themeName='" + themeName + '\'' +
+                ", time=" + time +
+                ", passingGrade=" + passingGrade +
+                '}';
+    }
+
 }

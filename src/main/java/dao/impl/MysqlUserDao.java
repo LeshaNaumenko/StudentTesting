@@ -61,7 +61,7 @@ public class MysqlUserDao extends AbstractDao<User, Integer> implements IUserDAO
         statement.setString(1, entity.getFirstName());
         statement.setString(2, entity.getLastName());
         statement.setString(3, entity.getEmail());
-        statement.setString(4, entity.getPassword());
+        statement.setString(4, entity.getHash());
         statement.setBytes(5, entity.getSalt());
         statement.setString(6, entity.getRole().name());
     }

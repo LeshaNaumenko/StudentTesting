@@ -2,8 +2,6 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
-import service.ServiceFactory;
-import service.ThemeService;
 import service.UserService;
 import utility.EmailValidator;
 import utility.LanguageManager;
@@ -14,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 public class RegisterCommand extends Command {
     private UserService userService;
@@ -59,12 +56,14 @@ public class RegisterCommand extends Command {
     }
 
     /**
+     * Returns variable is used to immediately display all error messages.
+     *
      * @param req
      * @param firstName
      * @param lastName
      * @param email
      * @param password
-     * @return validParameters. This variable is used to immediately display all error messages.
+     * @return validParameters.
      */
     private boolean checkParameters(HttpServletRequest req, String firstName, String lastName, String email, String password) {
         boolean validParameters = true;
