@@ -6,44 +6,37 @@ import javax.sql.DataSource;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Class {@code ConnectionPool} is an abstraction layer between our program
+ * and different JDBC drivers that provides the database connection pool.
+ *
+ * @author Alex Naumenko
+ */
 public final class ConnectionPool {
+
     private static volatile DataSource dataSource;
-    private static volatile Connection connection = null;
 
-    public static Connection createConnection() {
-        try {
-            ResourceBundle resource = ResourceBundle.getBundle("db");
-            String url = resource.getString("url");
-            String user = resource.getString("user");
-            String pass = resource.getString("password");
-            String driver = resource.getString("driver");
-            Class.forName(driver);
-
-            connection = DriverManager.getConnection(url, user, pass);
-            return connection;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+    /**
+     * Gets {@code DataSource} instance using {@code BasicDataSource) instance by configuration file properties of db.
+     *
+     * @return DataSource instance
+     */
     private static DataSource getDataSource() {
         if (dataSource == null) {
             synchronized (ConnectionPool.class) {
                 if (dataSource == null) {
                     BasicDataSource ds = new BasicDataSource();
                     ResourceBundle resource = ResourceBundle.getBundle("db");
-                    ds.setDriverClassName(resource.getString("driver"));
-                    ds.setUrl(resource.getString("url"));
-                    ds.setUsername(resource.getString("user"));
-                    ds.setPassword(resource.getString("password"));
-                    ds.setMinIdle(Integer.valueOf(resource.getString("min")));
-                    ds.setMaxIdle(Integer.valueOf(resource.getString("max")));
-                    ds.setMaxOpenPreparedStatements(Integer.valueOf(resource.getString("statements")));
+                    ds.setDriverClassName(resource.getString("MYSQL_DB_DRIVER_CLASS"));
+                    ds.setUrl(resource.getString("MYSQL_DB_URL"));
+                    ds.setUsername(resource.getString("MYSQL_DB_USERNAME"));
+                    ds.setPassword(resource.getString("MYSQL_DB_PASSWORD"));
+                    ds.setMinIdle(Integer.valueOf(resource.getString("MYSQL_DB_MIN")));
+                    ds.setMaxIdle(Integer.valueOf(resource.getString("MYSQL_DB_MAX")));
+                    ds.setMaxOpenPreparedStatements(Integer.valueOf(resource.getString("MYSQL_DB_STATEMENTS")));
                     dataSource = ds;
                 }
             }
@@ -51,21 +44,16 @@ public final class ConnectionPool {
         return dataSource;
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return connection.
+     */
     public static Connection getConnection() {
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public static void close(){
-        if (connection!=null){
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

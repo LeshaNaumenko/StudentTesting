@@ -1,5 +1,7 @@
 package service;
 
+import dao.IAnswerDAO;
+import dao.factory.DAOFactory;
 import model.entity.Answer;
 import model.entity.Question;
 import org.apache.log4j.Logger;
@@ -11,6 +13,13 @@ import java.util.List;
 public class AnswerService {
     final static Logger logger = Logger.getLogger(QuestionService.class);
 
+    private IAnswerDAO<Answer, Integer> answerDAO;
+
+   /*
+    public AnswerService() {
+        this.answerDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getAnswerDao();
+    }
+    */
 
     public List<Answer> getAnswers(List<Question> questionList, List<String> parameters) {
         ArrayList<Answer> answers = new ArrayList<>();

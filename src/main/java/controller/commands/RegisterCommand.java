@@ -2,11 +2,9 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import service.ServiceFactory;
 import service.UserService;
-import utility.EmailValidator;
-import utility.LanguageManager;
-import utility.NameSurnameValidator;
-import utility.PasswordValidator;
+import utility.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,11 @@ import java.io.IOException;
 
 public class RegisterCommand extends Command {
     private UserService userService;
-    LanguageManager languageManager;
+    private LanguageManager languageManager;
+
+    public RegisterCommand() {
+        this.userService = ServiceFactory.getInstance().getUserService();
+    }
 
     public RegisterCommand(UserService userService) {
         this.userService = userService;
@@ -34,11 +36,13 @@ public class RegisterCommand extends Command {
         if (!validParameters) return CommandResult.forward(REGISTRATION_PAGE);
         User user = userService.getUserBy("email", email);
         if (existsUser(user, req)) return CommandResult.forward(REGISTRATION_PAGE);
+        EncryptionBuilder encryptionBuilder = new EncryptionBuilder(password);
         User newUser = userService.registerUser(new User.Builder()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
-                .setPassword(password)
+                .setHash(encryptionBuilder.getHash())
+                .setSalt(encryptionBuilder.getSalt())
                 .setRole(User.Role.USER)
                 .build()
         );

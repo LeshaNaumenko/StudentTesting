@@ -1,27 +1,40 @@
 package service;
 
-import dao.factory.DAOFactory;
-
 public class ServiceFactory {
-    private static DAOFactory instance = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB);
 
-    public static UserService getUserService() {
-        return new UserService(instance.getUserDAO());
+    private static volatile ServiceFactory serviceFactory ;
+
+    private ServiceFactory() {
     }
 
-    public static QuestionService getQuestionService() {
-        return new QuestionService(instance.getQuestionDao());
+    public static ServiceFactory getInstance(){
+        if (serviceFactory == null){
+            synchronized (ServiceFactory.class){
+                if (serviceFactory == null){
+                    serviceFactory = new ServiceFactory();
+                }
+            }
+        }
+        return serviceFactory;
     }
 
-    public static TestService getTestService() {
-        return new TestService(instance.getTestDao(), instance.getThemeDAO());
+    public UserService getUserService() {
+        return new UserService();
     }
 
-    public static ThemeService getThemeService() {
-        return new ThemeService(instance.getThemeDAO());
+    public QuestionService getQuestionService() {
+        return new QuestionService();
     }
 
-    public static AnswerService getAnswerService() {
+    public TestService getTestService() {
+        return new TestService();
+    }
+
+    public ThemeService getThemeService() {
+        return new ThemeService();
+    }
+
+    public AnswerService getAnswerService() {
         return new AnswerService();
     }
 }

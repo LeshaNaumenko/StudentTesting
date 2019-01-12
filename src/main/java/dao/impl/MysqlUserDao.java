@@ -65,20 +65,4 @@ public class MysqlUserDao extends AbstractDao<User, Integer> implements IUserDAO
         statement.setBytes(5, entity.getSalt());
         statement.setString(6, entity.getRole().name());
     }
-
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, User object) {
-    }
-
-    @Override
-    public User update(User entity) {
-        return null;
-    }
-
-
-    @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
-
 }

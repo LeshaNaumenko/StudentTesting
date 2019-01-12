@@ -1,9 +1,8 @@
 package service;
 
 import dao.IQuestionDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import exceptions.ServiceException;
-import dao.impl.MysqlQuestionDao;
 import dao.factory.DAOFactory;
 import model.entity.Question;
 import org.apache.log4j.Logger;
@@ -16,6 +15,10 @@ public class QuestionService {
 
     private IQuestionDAO<Question, Integer> questionDao;
 
+    public QuestionService() {
+        this.questionDao = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getQuestionDao();
+    }
+
     public QuestionService(IQuestionDAO<Question, Integer> questionDao) {
         this.questionDao = questionDao;
     }
@@ -23,7 +26,7 @@ public class QuestionService {
     public List<Question> getQuestions(Integer themeId, Locale locale) throws ServiceException {
         try {
             return questionDao.getListOfQuestionWithLocale(themeId, locale);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting question. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

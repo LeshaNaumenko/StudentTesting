@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.IThemeDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import model.entity.Theme;
 import org.apache.log4j.Logger;
 
@@ -50,7 +50,7 @@ public class MysqlThemeDao extends AbstractDao<Theme, Integer> implements ITheme
         return courses;
     }
 
-    public List<String> getCourseName() throws PersistException {
+    public List<String> getCourseName() throws DAOException {
         List<String> courses = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_ALL_COURSES_NAME)) {
             ResultSet resultSet = statement.executeQuery();
@@ -59,12 +59,12 @@ public class MysqlThemeDao extends AbstractDao<Theme, Integer> implements ITheme
             }
             if (courses.size() == 0) {
                 logger.error("Exception on get course name. List is empty.");
-                throw new PersistException("Exception on get course name. List is empty.");
+                throw new DAOException("Exception on get course name. List is empty.");
             }
             return courses;
         } catch (SQLException e) {
             logger.error("Exception on get course name. \nError message: " + e.getMessage());
-            throw new PersistException(e);
+            throw new DAOException(e);
         }
     }
 
@@ -81,19 +81,5 @@ public class MysqlThemeDao extends AbstractDao<Theme, Integer> implements ITheme
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Theme object) {
-    }
-
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, Theme object) {
-    }
-
-    @Override
-    public Theme update(Theme entity) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(Integer key) {
-        return false;
     }
 }

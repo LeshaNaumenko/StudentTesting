@@ -1,7 +1,7 @@
 package service;
 
 import dao.IQuestionDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import exceptions.ServiceException;
 import model.entity.Question;
 import org.junit.Before;
@@ -28,15 +28,15 @@ public class QuestionServiceTest {
     }
 
     @Test()
-    public void getQuestionsTest() throws PersistException, ServiceException {
+    public void getQuestionsTest() throws DAOException, ServiceException {
         when(questionDao.getListOfQuestionWithLocale(anyInt(), any(Locale.class))).thenReturn(Arrays.asList(new Question(), new Question()));
         List<Question> questions = questionService.getQuestions(1, Locale.getDefault());
         assertNotNull(questions);
     }
 
     @Test(expected = ServiceException.class)
-    public void shouldThrowServiceExceptionsTest() throws PersistException, ServiceException {
-        when(questionDao.getListOfQuestionWithLocale(anyInt(), any(Locale.class))).thenThrow(PersistException.class);
+    public void shouldThrowServiceExceptionsTest() throws DAOException, ServiceException {
+        when(questionDao.getListOfQuestionWithLocale(anyInt(), any(Locale.class))).thenThrow(DAOException.class);
         questionService.getQuestions(1, Locale.getDefault());
     }
 

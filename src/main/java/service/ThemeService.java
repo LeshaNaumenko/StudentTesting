@@ -1,7 +1,7 @@
 package service;
 
 import dao.IThemeDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import exceptions.ServiceException;
 import dao.factory.DAOFactory;
 import model.entity.Theme;
@@ -14,6 +14,10 @@ public class ThemeService {
 
     private IThemeDAO<Theme, Integer> themeDAO;
 
+    public ThemeService() {
+        this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
+    }
+
     public ThemeService(IThemeDAO<Theme, Integer> themeDAO) {
         this.themeDAO = themeDAO;
     }
@@ -21,7 +25,7 @@ public class ThemeService {
     public List<String> getCourses() throws ServiceException {
         try {
             return themeDAO.getCourseName();
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting all course names\nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -30,7 +34,7 @@ public class ThemeService {
     public List<Theme> getThemesByCourse(String value) throws ServiceException {
         try {
             return themeDAO.getListOfEntityBy("course_name", value);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting themes by course_name with a value of "+value+". \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -39,7 +43,7 @@ public class ThemeService {
     public Theme getThemeByID(Integer themeId) throws ServiceException {
         try {
             return themeDAO.getEntityBy("id", themeId);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting themes by id. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

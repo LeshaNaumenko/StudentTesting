@@ -2,7 +2,8 @@ package service;
 
 import dao.ITestDAO;
 import dao.IThemeDAO;
-import exceptions.PersistException;
+import dao.factory.DAOFactory;
+import exceptions.DAOException;
 import exceptions.ServiceException;
 import model.entity.Test;
 import model.entity.TestDTO;
@@ -17,18 +18,22 @@ public class TestService {
     private ITestDAO<Test, Integer> testDao;
     private IThemeDAO<Theme, Integer> themeDAO;
 
+    public TestService() {
+        this.testDao = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getTestDao();
+        this.themeDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getThemeDAO();
+    }
+
     public TestService(ITestDAO<Test, Integer> testDao, IThemeDAO<Theme, Integer> themeDAO) {
         this.testDao = testDao;
         this.themeDAO = themeDAO;
     }
-
 
     public Test.Status calculateStatus(int grade, Integer themeId) throws ServiceException {
         try {
             Theme theme = themeDAO.getEntityBy("id", themeId);
             if (grade >= theme.getPassingGrade()) return Test.Status.PASSED;
             return Test.Status.FAILED;
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception when calculate status. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -37,7 +42,7 @@ public class TestService {
     public Test createTest(Test test) throws ServiceException {
         try {
             return testDao.create(test);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception when creating an tests. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -47,7 +52,7 @@ public class TestService {
     public List<TestDTO> getResultsById(int id, int currentPage, int recordsPerPage) throws ServiceException {
         try {
             return testDao.getTestResults(id, currentPage, recordsPerPage);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting results for user  by id. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -63,7 +68,7 @@ public class TestService {
     public int getNumberOfRows(int id) throws ServiceException {
         try {
             return testDao.getNumberOfRows(id);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Error getting number of rows of the test \n" +
                     "Error message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);

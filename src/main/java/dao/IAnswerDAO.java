@@ -1,15 +1,18 @@
 package dao;
 
-import exceptions.PersistException;
+import exceptions.DAOException;
 import model.entity.Answer;
 
 import java.util.List;
 
-public interface IAnswerDAO<T extends Answer, K extends Integer> {
-    List<T> getAll() throws PersistException;
-    T update(T entity);
-    T getEntityBy(String column, Object value) throws PersistException;
-    List<T> getListOfEntityBy(String column, Object value) throws PersistException;
-    boolean delete(K key);
-    T create(T entity) throws PersistException;
+/**
+ * Class {@code MysqlDAOFactory} is a concrete {@code DAOFactory} implementation for MYSQL.
+ *
+ * @author Alex Naumenko
+ *
+ * @see dao.factory.DAOFactory
+ */
+public interface IAnswerDAO<T extends Answer, K> {
+    List<T> getAll() throws DAOException;
+    T create(T entity) throws DAOException;
 }

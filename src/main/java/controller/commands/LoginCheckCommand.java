@@ -3,6 +3,7 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.User;
 import org.apache.log4j.Logger;
+import service.ServiceFactory;
 import service.UserService;
 import utility.*;
 
@@ -12,9 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LoginCheckCommand extends Command {
-    final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
+    private final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
     private UserService userService;
-    LanguageManager languageManager;
+    private LanguageManager languageManager;
+
+    public LoginCheckCommand() {
+        this.userService = ServiceFactory.getInstance().getUserService();
+    }
 
     public LoginCheckCommand(UserService userService) {
         this.userService = userService;
@@ -32,7 +37,7 @@ public class LoginCheckCommand extends Command {
         User user = userService.getUserBy("email", req.getParameter("email"));
         if (!existsUser(user, req))return CommandResult.forward(LOGIN_PAGE);
 
-        boolean verifyUserPassword = PasswordSecurity.verifyUserPassword(password, user.getHash(), user.getSalt());
+        boolean verifyUserPassword = Encryption.verifyUserPassword(password, user.getHash(), user.getSalt());
         if (verifyUserPassword) {
             logger.info("user[" + user.getId() + "] logged in");
             setAttribute(req, user);

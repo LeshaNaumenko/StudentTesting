@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import service.ServiceFactory;
 import service.UserService;
 import utility.LanguageManager;
 
@@ -15,6 +16,10 @@ public class GetAllUsersCommand extends Command {
 
     private UserService userService;
     private LanguageManager languageManager;
+
+    public GetAllUsersCommand() {
+        this.userService = ServiceFactory.getInstance().getUserService();
+    }
 
     public GetAllUsersCommand(UserService userService) {
         this.userService = userService;

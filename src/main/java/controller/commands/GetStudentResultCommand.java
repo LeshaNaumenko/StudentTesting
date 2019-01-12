@@ -4,6 +4,7 @@ import exceptions.PaginationException;
 import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
+import service.ServiceFactory;
 import service.TestService;
 import service.UserService;
 import utility.LanguageManager;
@@ -21,6 +22,10 @@ public class GetStudentResultCommand extends Command {
     private LanguageManager languageManager;
     public static final int RECORDS_ON_THE_PAGE = 5;
 
+    public GetStudentResultCommand() {
+        this.userService = ServiceFactory.getInstance().getUserService();
+        this.testService = ServiceFactory.getInstance().getTestService();
+    }
 
     public GetStudentResultCommand(UserService userService, TestService testService) {
         this.userService = userService;
@@ -79,13 +84,5 @@ public class GetStudentResultCommand extends Command {
         req.getSession().setAttribute("currentPage", pagination.getCurrentPage());
         req.setAttribute("recordsPerPage", pagination.getRecordsPerPage());
         req.setAttribute("testDTOList", testDTOList);
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public TestService getTestService() {
-        return testService;
     }
 }

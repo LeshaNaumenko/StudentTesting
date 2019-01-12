@@ -16,6 +16,10 @@ public class GetThemesByCourseCommand extends Command {
     private ThemeService themeService;
     private LanguageManager languageManager;
 
+    public GetThemesByCourseCommand() {
+        this.themeService = ServiceFactory.getInstance().getThemeService();
+    }
+
     public GetThemesByCourseCommand(ThemeService themeService) {
         this.themeService = themeService;
     }

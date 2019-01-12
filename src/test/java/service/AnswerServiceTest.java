@@ -25,7 +25,7 @@ public class AnswerServiceTest {
 
     @Before
     public void setUp() {
-        answerService = ServiceFactory.getAnswerService();
+        answerService = ServiceFactory.getInstance().getAnswerService();
     }
 
     @Test

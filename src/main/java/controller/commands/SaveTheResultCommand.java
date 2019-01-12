@@ -3,6 +3,7 @@ package controller.commands;
 import exceptions.ServiceException;
 import model.entity.*;
 import service.AnswerService;
+import service.ServiceFactory;
 import service.TestService;
 import service.ThemeService;
 
@@ -18,8 +19,13 @@ public class SaveTheResultCommand extends Command {
     private TestService testService;
     private AnswerService answerService;
 
-    public SaveTheResultCommand(ThemeService themeService, TestService testService, AnswerService answerService) {
+    public SaveTheResultCommand() {
+        this.themeService = ServiceFactory.getInstance().getThemeService();
+        this.testService = ServiceFactory.getInstance().getTestService();
+        this.answerService = ServiceFactory.getInstance().getAnswerService();
+    }
 
+    public SaveTheResultCommand(ThemeService themeService, TestService testService, AnswerService answerService) {
         this.themeService = themeService;
         this.testService = testService;
         this.answerService = answerService;
@@ -78,7 +84,6 @@ public class SaveTheResultCommand extends Command {
 
     }
 
-
     private void removeAttribute(HttpServletRequest req) {
         req.getSession().removeAttribute("listOfQuestion");
     }
@@ -91,7 +96,6 @@ public class SaveTheResultCommand extends Command {
         req.getSession().setAttribute("answers", answers);
 
     }
-
     private String setFormatForDate(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }

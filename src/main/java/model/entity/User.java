@@ -1,6 +1,6 @@
 package model.entity;
 
-import utility.PasswordSecurity;
+import utility.Encryption;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -279,19 +279,19 @@ public class User implements Serializable {
          * @param password provided by user.
          * @return user builder.
          *
-         * @see utility.PasswordSecurity
+         * @see Encryption
          */
 
         public Builder setPassword(String password) {
             byte[] salt = new byte[0];
             try {
-                salt = PasswordSecurity.getSalt();
+                salt = Encryption.getSalt();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (NoSuchProviderException e) {
                 e.printStackTrace();
             }
-            String hash = PasswordSecurity.getSecurePassword(password, salt);
+            String hash = Encryption.getSecurePassword(password, salt);
             this.hash = hash;
             this.salt = salt;
             return this;

@@ -19,6 +19,10 @@ public class GetTestCommand extends Command {
     private ThemeService themeService ;
     private QuestionService questionService ;
 
+    public GetTestCommand() {
+        this.themeService = ServiceFactory.getInstance().getThemeService();
+        this.questionService = ServiceFactory.getInstance().getQuestionService();
+    }
 
     public GetTestCommand(ThemeService themeService, QuestionService questionService) {
         this.themeService = themeService;

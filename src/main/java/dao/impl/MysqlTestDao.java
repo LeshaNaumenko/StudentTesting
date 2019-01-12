@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.ITestDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import model.entity.Test;
 import model.entity.TestDTO;
 import org.apache.log4j.Logger;
@@ -61,20 +61,6 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
     }
 
     @Override
-    public Test update(Test entity) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(Integer key) {
-        return false;
-    }
-
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, Test entity) {
-    }
-
-    @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Test entity) throws SQLException {
         statement.setInt(1, entity.getUserId());
         statement.setInt(2, entity.getThemeId());
@@ -91,7 +77,7 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         return INSERT_TEST;
     }
 
-    public List<TestDTO> getTestResults(Integer id, Integer start, Integer recordsPerPage) throws PersistException {
+    public List<TestDTO> getTestResults(Integer id, Integer start, Integer recordsPerPage) throws DAOException {
         List<TestDTO> listTestDTO = new ArrayList<>();
         String sql = GET_STUDENT_RESULTS;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -117,12 +103,12 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         } catch (SQLException e) {
             logger.error("Error getting results for user. \n" +
                     "Error message: " + e.getMessage());
-            throw new PersistException(e);
+            throw new DAOException(e);
         }
         return listTestDTO;
     }
 
-    public Integer getNumberOfRows(Integer id) throws PersistException {
+    public Integer getNumberOfRows(Integer id) throws DAOException {
         int numOfRows = 0;
             String sql = GET_THE_NUMBER_OF_TESTS;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -134,7 +120,7 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         } catch (SQLException e) {
             logger.error("Error getting number of rows of the test \n" +
                     "Error message: " + e.getMessage());
-            throw new PersistException(e);
+            throw new DAOException(e);
         }
         return numOfRows;
     }

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import service.UserService;
+import utility.EncryptionBuilder;
 import utility.LanguageManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +23,15 @@ import static org.mockito.Mockito.when;
 @RunWith(Parameterized.class)
 public class LoginCheckCommandTest {
 
-    private static final User USER = new User.Builder().setId(1).setFirstName("Alex").setLastName("Naumenko")
-            .setEmail("naymenko213@gmail.com").setHash("3123532Kkl").setRole(User.Role.USER).build();
     private static final String CORRECT_PASSWORD = "3123532Kkl";
     private static final String INCORRECT_PASSWORD = "1234JK2a";
     private static final String INVALID_PASSWORD = "123";
     private static final String INVALID_EMAIL =  "naum9009gmail.com";
-    private static final String CORRECT_EMAIL =  "naymenko213@gmail.com";
+    private static final String CORRECT_EMAIL =  "naumenko213@gmail.com";
+
+    private static EncryptionBuilder encryptionBuilder = new EncryptionBuilder(CORRECT_PASSWORD);
+    private static User USER = new User.Builder().setId(1).setFirstName("Alex").setLastName("Naumenko").setEmail(CORRECT_EMAIL)
+            .setHash(encryptionBuilder.getHash()).setSalt(encryptionBuilder.getSalt()).setRole(User.Role.USER).build();
 
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -52,6 +55,7 @@ public class LoginCheckCommandTest {
         session = mock(HttpSession.class);
         userService = mock(UserService.class);
         languageManager = LanguageManager.INSTANCE;
+
     }
 
     @Test

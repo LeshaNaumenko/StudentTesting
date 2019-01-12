@@ -1,6 +1,7 @@
 package controller.commands;
 
 import exceptions.ServiceException;
+import service.ServiceFactory;
 import service.ThemeService;
 import utility.LanguageManager;
 
@@ -14,6 +15,9 @@ public class GetCoursesNamesCommand extends Command {
     private ThemeService themeService;
     private LanguageManager languageManager;
 
+    public GetCoursesNamesCommand() {
+        this.themeService = ServiceFactory.getInstance().getThemeService();
+    }
 
     public GetCoursesNamesCommand(ThemeService themeService) {
         this.themeService = themeService;
@@ -29,15 +33,10 @@ public class GetCoursesNamesCommand extends Command {
         }
         req.getSession().setAttribute("course_name_list", courses);
         return CommandResult.forward(TEST_PAGE);
-
     }
 
     private CommandResult sendError(HttpServletRequest req) {
         req.getSession().setAttribute("error", languageManager.getMessage("no-courses"));
         return CommandResult.forward(ERROR_PAGE);
-    }
-
-    public ThemeService getThemeService() {
-        return themeService;
     }
 }

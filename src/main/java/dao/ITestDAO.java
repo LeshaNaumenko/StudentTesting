@@ -1,15 +1,15 @@
 package dao;
 
-import exceptions.PersistException;
+import exceptions.DAOException;
 import model.entity.Test;
 import model.entity.TestDTO;
 import java.util.List;
 
-public interface ITestDAO<T extends Test, K extends Integer> {
+public interface ITestDAO<T extends Test, K> {
 
-    T create(T entity) throws PersistException;
+    T create(T entity) throws DAOException;
 
-    List<TestDTO> getTestResults(K id, K start, K recordsPerPage) throws PersistException;
+    List<TestDTO> getTestResults(K id, K start, K recordsPerPage) throws DAOException;
 
-    K getNumberOfRows(K id) throws PersistException;
+    K getNumberOfRows(K id) throws DAOException;
 }

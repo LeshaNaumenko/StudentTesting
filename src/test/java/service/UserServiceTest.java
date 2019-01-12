@@ -1,7 +1,7 @@
 package service;
 
 import dao.IUserDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import exceptions.ServiceException;
 import model.entity.User;
 import org.junit.Before;
@@ -28,41 +28,41 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getAllUsers() throws PersistException, ServiceException {
+    public void getAllUsers() throws DAOException, ServiceException {
         when(userDAO.getAll()).thenReturn(Arrays.asList(new User(), new User()));
         List<User> allUsers = userService.getAllUsers();
         assertNotNull(allUsers);
     }
 
     @Test
-    public void getUserBy() throws PersistException, ServiceException {
+    public void getUserBy() throws DAOException, ServiceException {
         when(userDAO.getEntityBy(anyString(), anyString())).thenReturn(new User());
         User userBy = userService.getUserBy("someValue", "someValue");
         assertNotNull(userBy);
     }
 
     @Test
-    public void registerUser() throws PersistException, ServiceException {
+    public void registerUser() throws DAOException, ServiceException {
         when(userDAO.create(any(User.class))).thenReturn(user);
         User user = userService.registerUser(new User());
         assertNotNull(user);
     }
 
     @Test(expected = ServiceException.class)
-    public void shouldThrowServiceExceptionsForGetAllUsers() throws PersistException, ServiceException {
-        when(userDAO.getAll()).thenThrow(PersistException.class);
+    public void shouldThrowServiceExceptionsForGetAllUsers() throws DAOException, ServiceException {
+        when(userDAO.getAll()).thenThrow(DAOException.class);
         userService.getAllUsers();
     }
 
     @Test(expected = ServiceException.class)
-    public void shouldThrowServiceExceptionsForGetUserBy() throws PersistException, ServiceException {
-        when(userDAO.getEntityBy(anyString(), anyString())).thenThrow(PersistException.class);
+    public void shouldThrowServiceExceptionsForGetUserBy() throws DAOException, ServiceException {
+        when(userDAO.getEntityBy(anyString(), anyString())).thenThrow(DAOException.class);
         userService.getUserBy("someValue", "someValue");
     }
 
     @Test(expected = ServiceException.class)
-    public void shouldThrowServiceExceptionsForRegisterUser() throws PersistException, ServiceException {
-        when(userDAO.create(any(User.class))).thenThrow(PersistException.class);
+    public void shouldThrowServiceExceptionsForRegisterUser() throws DAOException, ServiceException {
+        when(userDAO.create(any(User.class))).thenThrow(DAOException.class);
         userService.registerUser(new User());
     }
 }

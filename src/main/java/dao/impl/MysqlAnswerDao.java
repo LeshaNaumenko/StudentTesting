@@ -14,6 +14,7 @@ import java.util.List;
 public class MysqlAnswerDao extends AbstractDao<Answer, Integer> implements IAnswerDAO<Answer, Integer> {
     final static Logger logger = Logger.getLogger(MysqlAnswerDao.class);
 
+
     public MysqlAnswerDao(Connection connection) {
         super(connection);
     }
@@ -38,17 +39,4 @@ public class MysqlAnswerDao extends AbstractDao<Answer, Integer> implements IAns
 
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Answer object) throws SQLException {}
-
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, Answer object) {}
-
-    @Override
-    public Answer update(Answer entity) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(Integer key) {
-        return false;
-    }
 }

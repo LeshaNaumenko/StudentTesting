@@ -1,6 +1,6 @@
 package service;
 
-import exceptions.PersistException;
+import exceptions.DAOException;
 import exceptions.ServiceException;
 import dao.IUserDAO;
 import dao.factory.DAOFactory;
@@ -14,6 +14,10 @@ public class UserService {
 
     private IUserDAO<User, Integer> userDAO;
 
+    public UserService() {
+        this.userDAO = DAOFactory.getInstance(DAOFactory.DBName.MYSQL_DB).getUserDAO();
+    }
+
     public UserService(IUserDAO<User, Integer> userDAO) {
         this.userDAO = userDAO;
     }
@@ -21,7 +25,7 @@ public class UserService {
     public List<User> getAllUsers() throws ServiceException {
         try {
             return userDAO.getAll();
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting all users. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -31,7 +35,7 @@ public class UserService {
 
         try {
             return userDAO.getEntityBy(column, value);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception getting users by "+column+" with a value of "+value+". \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -40,7 +44,7 @@ public class UserService {
     public User registerUser(User user) throws ServiceException {
         try {
             return userDAO.create(user);
-        } catch (PersistException e) {
+        } catch (DAOException e) {
             logger.error("Exception when creating an users. \nError message: " + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

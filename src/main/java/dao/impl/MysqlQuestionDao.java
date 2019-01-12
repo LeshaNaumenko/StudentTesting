@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.AbstractDao;
 import dao.IQuestionDAO;
-import exceptions.PersistException;
+import exceptions.DAOException;
 import model.entity.Question;
 import org.apache.log4j.Logger;
 
@@ -38,8 +38,6 @@ public class MysqlQuestionDao extends AbstractDao<Question, Integer> implements 
     }
     @Override
     protected void prepareStatementForInsert(PreparedStatement statement, Question object) {}
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, Question object) {}
 
     @Override
     protected List<Question> parseResultSet(ResultSet resultSet) throws SQLException {
@@ -59,7 +57,7 @@ public class MysqlQuestionDao extends AbstractDao<Question, Integer> implements 
         return questions;
     }
 
-    public List<Question> getListOfQuestionWithLocale(Integer themeId, Locale locale) throws PersistException {
+    public List<Question> getListOfQuestionWithLocale(Integer themeId, Locale locale) throws DAOException {
         List<Question> questionList;
         try {
 
@@ -73,7 +71,7 @@ public class MysqlQuestionDao extends AbstractDao<Question, Integer> implements 
             return  questionList;
         } catch (SQLException e) {
             logger.error("Error getting list of question with locale. \nError message: " + e.getMessage());
-            throw new PersistException(e);
+            throw new DAOException(e);
         }
     }
 
@@ -86,15 +84,4 @@ public class MysqlQuestionDao extends AbstractDao<Question, Integer> implements 
     public String getSelectQueryForList() {
         return GET_ALL_QUESTIONS_OF_A_CERTAIN_COURSE;
     }
-
-    @Override
-    public Question update(Question entity) {
-        return null;
-    }
-
-    @Override
-    public boolean delete(Integer key) {
-        return false;
-    }
-
 }
