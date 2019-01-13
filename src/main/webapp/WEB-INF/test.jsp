@@ -48,8 +48,8 @@
                             <td><a class="nav-link" href="/test?theme_id=<c:out value="${theme.id}"/>&command=GET_TEST"/>
                                 <c:out value="${theme.themeName}"/></td>
                             <td><c:out value="${theme.courseName}"/></td>
-                            <td><c:out value="${theme.time}"/></td>
-                            <td><c:out value="${theme.passingGrade}"/></td>
+                            <td><c:out value="${theme.time}"/><fmt:message key="minutes"/> </td>
+                            <td><c:out value="${theme.passingGrade}"/>%</td>
                         </tr>
                     </c:forEach>
                     </tbody>

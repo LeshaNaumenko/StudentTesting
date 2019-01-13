@@ -40,15 +40,13 @@
             </tr>
             <tr>
                 <th scope="row" class="table-active"><fmt:message key="testing-time-result-of-test"/></th>
-                <td class="table-active">${theme.time}</td>
+                <td class="table-active">${theme.time}<fmt:message key="minutes"/></td>
             </tr>
             <tr>
                 <th scope="row"><fmt:message key="your-time-result-of-test"/></th>
-                <td><c:out value="${sessionScope.minutes}"/>
-                    <fmt:message key="minutes"/>
-                    <c:out value="${sessionScope.seconds}"/>
-                    <fmt:message key="seconds"/>
-                </td>
+                <c:set var="dateParts" value="${fn:split(sessionScope.userTime, ':')}"/>
+                <td ><c:out value="${dateParts[0]}"/><fmt:message key="minutes"/> <c:out
+                        value="${dateParts[1]}"/><fmt:message key="seconds"/></td>
             </tr>
             <tr>
                 <th scope="row" class="table-active"><fmt:message key="passing-score-result-of-test"/></th>
@@ -87,10 +85,10 @@
                     <td rowspan=2><fmt:message key="${answer.status}"/></td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="width: 50%">
                         <div><fmt:message key="your-answer"/> <c:out value="${answer.userAnswer}"/></div>
                     </td>
-                    <td>
+                    <td style="width: 50%">
                         <div><fmt:message key="correct-answer"/> <c:out value="${answer.correctAnswer}"/></div>
                     </td>
                 </tr>

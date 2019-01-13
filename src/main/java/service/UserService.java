@@ -26,7 +26,7 @@ public class UserService {
         try {
             return userDAO.getAll();
         } catch (DAOException e) {
-            logger.error("Exception getting all users. \nError message: " + e.getMessage());
+            logger.error("No users");
             throw new ServiceException(e.getMessage(), e);
         }
     }

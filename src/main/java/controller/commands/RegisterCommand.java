@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.UserService;
 import utility.*;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RegisterCommand extends Command {
+
+    private final static Logger LOGGER = Logger.getLogger(GetThemesByCourseCommand.class);
     private UserService userService;
     private LanguageManager languageManager;
 
@@ -25,17 +28,23 @@ public class RegisterCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+        LOGGER.info(this.getClass().getSimpleName() + " is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
-
         String firstName = req.getParameter("fname");
         String lastName = req.getParameter("lname");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
         boolean validParameters = checkParameters(req, firstName, lastName, email, password);
-        if (!validParameters) return CommandResult.forward(REGISTRATION_PAGE);
+        if (!validParameters) {
+            LOGGER.warn("Unknown user entered incorrect data during registration.");
+            return CommandResult.forward(REGISTRATION_PAGE);
+        }
         User user = userService.getUserBy("email", email);
-        if (existsUser(user, req)) return CommandResult.forward(REGISTRATION_PAGE);
+        if (existsUser(user, req)){
+            LOGGER.warn("Unknown user attempted to register by existing email - "+email);
+            return CommandResult.forward(REGISTRATION_PAGE);
+        }
         EncryptionBuilder encryptionBuilder = new EncryptionBuilder(password);
         User newUser = userService.registerUser(new User.Builder()
                 .setFirstName(firstName)
@@ -72,18 +81,22 @@ public class RegisterCommand extends Command {
     private boolean checkParameters(HttpServletRequest req, String firstName, String lastName, String email, String password) {
         boolean validParameters = true;
         if (!EmailValidator.checkEmail(email)) {
+            LOGGER.debug("Incorrect email");
             req.setAttribute("errEmailMessage", languageManager.getMessage("example-email"));
             validParameters = false;
         }
         if (!PasswordValidator.checkPassword(password)) {
+            LOGGER.debug("Incorrect password");
             req.setAttribute("errPassMessage", languageManager.getMessage("password-info"));
             validParameters = false;
         }
         if (!NameSurnameValidator.checkNames(firstName)) {
+            LOGGER.debug("Incorrect first name");
             req.setAttribute("errFirstMessage", languageManager.getMessage("fname-incorrect"));
             validParameters = false;
         }
         if (!NameSurnameValidator.checkNames(lastName)) {
+            LOGGER.debug("Incorrect last name");
             req.setAttribute("errLastMessage", languageManager.getMessage("lname-incorrect"));
             validParameters = false;
         }

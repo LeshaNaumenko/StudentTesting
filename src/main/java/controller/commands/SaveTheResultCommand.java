@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.*;
+import org.apache.log4j.Logger;
 import service.AnswerService;
 import service.ServiceFactory;
 import service.TestService;
@@ -13,8 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SaveTheResultCommand extends Command {
+
+    private final static Logger LOGGER = Logger.getLogger(SaveTheResultCommand.class);
     private ThemeService themeService;
     private TestService testService;
     private AnswerService answerService;
@@ -33,11 +37,14 @@ public class SaveTheResultCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
-
+        LOGGER.info(this.getClass().getSimpleName() + " is running");
         User current = (User) req.getSession().getAttribute("user");
         List<Question> questionList = (List<Question>) req.getSession().getAttribute("listOfQuestion");
 
-        if (!Objects.nonNull(questionList)) return sendRedirectToTest(req);
+        if (!Objects.nonNull(questionList)) {
+            LOGGER.info("No questions.");
+            return sendRedirectToTest(req);
+        }
         Integer themeId = (Integer) req.getSession().getAttribute("theme_id_attribute");
         Date startTime = new Date((long) req.getSession().getAttribute("startTime"));
         Date endTime = new Date(System.currentTimeMillis());
@@ -47,8 +54,7 @@ public class SaveTheResultCommand extends Command {
         int rightAnswers = answerService.getRightAnswers(answers);
         int grade = testService.calculateTheGrade(rightAnswers, questionList.size());
         long duration = testService.getDuration(endTime.getTime(), startTime.getTime());
-        long diffSeconds = testService.getTheDifferenceSeconds(duration);
-        long diffMinutes = testService.getTheDifferenceMinutes(duration);
+        String userTime = testService.calculateUserTime(duration);
         Test.Status status = testService.calculateStatus(grade, themeId);
         Test test = testService.createTest(new Test.Builder()
                 .setUserId(current.getId())
@@ -57,13 +63,13 @@ public class SaveTheResultCommand extends Command {
                 .setGrade(grade)
                 .setStartTime(setFormatForDate(startTime))
                 .setEndTime(setFormatForDate(endTime))
-                .setUserTime(diffMinutes + ":" + diffSeconds)
+                .setUserTime(userTime)
                 .setDate(setFormatForDate(startTime))
                 .build()
         );
         Theme theme = themeService.getThemeByID(test.getThemeId());
 
-        setAttribute(req, diffSeconds, diffMinutes, test, theme, answers);
+        setAttribute(req, userTime, test, theme, answers);
         removeAttribute(req);
         return CommandResult.forward(RESULT_OF_TEST);
 
@@ -88,15 +94,15 @@ public class SaveTheResultCommand extends Command {
         req.getSession().removeAttribute("listOfQuestion");
     }
 
-    private void setAttribute(HttpServletRequest req, long diffSeconds, long diffMinutes, Test test, Theme theme, List<Answer> answers) {
+    private void setAttribute(HttpServletRequest req, String userTime, Test test, Theme theme, List<Answer> answers) {
         req.getSession().setAttribute("test", test);
         req.getSession().setAttribute("theme", theme);
-        req.getSession().setAttribute("minutes", diffMinutes);
-        req.getSession().setAttribute("seconds", diffSeconds);
+        req.getSession().setAttribute("userTime", userTime);
         req.getSession().setAttribute("answers", answers);
 
     }
     private String setFormatForDate(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
+
 }

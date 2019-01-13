@@ -1,6 +1,7 @@
 package connection;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
 
@@ -17,12 +18,13 @@ import java.util.ResourceBundle;
  */
 public final class ConnectionPool {
 
+    private static final Logger logger = Logger.getLogger(ConnectionPool.class.getName());
     private static volatile DataSource dataSource;
 
     /**
-     * Gets {@code DataSource} instance using {@code BasicDataSource) instance by configuration file properties of db.
+     * Gets {@code BasicDataSource) implementation of {@code DataSource} by configuration file properties of db.
      *
-     * @return DataSource instance
+     * @return dataSource
      */
     private static DataSource getDataSource() {
         if (dataSource == null) {
@@ -49,11 +51,12 @@ public final class ConnectionPool {
      *
      * @return connection.
      */
-    public static Connection getConnection() {
+    public static Connection getConnection()  {
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.fatal(e.getMessage());
+            throw new RuntimeException("Hasn't found connection with database");
         }
     }
 }

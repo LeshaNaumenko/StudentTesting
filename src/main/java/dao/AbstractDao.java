@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.List;
 
 public abstract class AbstractDao<T, K> {
-    final static Logger logger = Logger.getLogger(AbstractDao.class);
+    private final static Logger LOGGER = Logger.getLogger(AbstractDao.class);
     public Connection connection;
 
-    public AbstractDao(Connection connection) {
-        this.connection = connection;
+    public AbstractDao(Connection connection)  {
+            this.connection = connection;
     }
 
     public abstract String getCreateQuery();
@@ -49,7 +49,7 @@ public abstract class AbstractDao<T, K> {
             persistInstance = list.iterator().next();
             return persistInstance;
         } catch (Exception e) {
-            logger.error("Exception on create new entity. \n" +
+            LOGGER.error("Exception on create new entity. \n" +
                     "Error message: " + e.getMessage());
             throw new DAOException(e);
         }
@@ -64,7 +64,7 @@ public abstract class AbstractDao<T, K> {
             ResultSet resultSet = preparedStatement.executeQuery();
             list = parseResultSet(resultSet);
         } catch (SQLException e) {
-            logger.error("Error getting entity. \n" +
+            LOGGER.error("Error getting entity. \n" +
                     "Error message: " + e.getMessage());
             throw new DAOException(e);
         }
@@ -72,7 +72,7 @@ public abstract class AbstractDao<T, K> {
             return null;
         }
         if (list.size() > 1) {
-            logger.error("Received more than one record.");
+            LOGGER.error("Received more than one record.");
             throw new DAOException("Received more than one record.");
         }
         return list.iterator().next();
@@ -86,7 +86,7 @@ public abstract class AbstractDao<T, K> {
             ResultSet resultSet = statement.executeQuery();
             list = parseResultSet(resultSet);
         } catch (SQLException e) {
-            logger.error("Error getting all entity. \n" +
+            LOGGER.error("Error getting all entity. \n" +
                     "Error message: " + e.getMessage());
             throw new DAOException(e);
         }
@@ -102,7 +102,7 @@ public abstract class AbstractDao<T, K> {
             ResultSet resultSet = preparedStatement.executeQuery();
             list = parseResultSet(resultSet);
         } catch (SQLException e) {
-            logger.error("Error getting list of entity. \n" +
+            LOGGER.error("Error getting list of entity. \n" +
                     "Error message: " + e.getMessage());
             throw new DAOException(e);
         }

@@ -29,6 +29,7 @@ public class GetThemesByCourseCommandTest {
     private HttpServletResponse response;
     private HttpSession session;
     private ThemeService themeService;
+    private LanguageManager languageManager;
 
 
     @Parameterized.Parameter()
@@ -42,11 +43,13 @@ public class GetThemesByCourseCommandTest {
         response = mock(HttpServletResponse.class);
         session = mock(HttpSession.class);
         themeService = mock(ThemeService.class);
+        languageManager = LanguageManager.INSTANCE;
     }
 
     @Test
     public void shouldReturnCorrectRedirect() throws ServiceException, ServletException, IOException {
         when(request.getSession()).thenReturn(session);
+        when(request.getSession().getAttribute("appLocale")).thenReturn(languageManager);
         when(themeService.getThemesByCourse(anyString())).thenReturn(themesByCourse);
         GetThemesByCourseCommand command = new GetThemesByCourseCommand(themeService);
         CommandResult execute = command.execute(request, response);

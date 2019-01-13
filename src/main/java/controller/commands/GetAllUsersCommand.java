@@ -2,6 +2,7 @@ package controller.commands;
 
 import exceptions.ServiceException;
 import model.entity.User;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.UserService;
 import utility.LanguageManager;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class GetAllUsersCommand extends Command {
 
+    private final static Logger LOGGER = Logger.getLogger(GetAllUsersCommand.class);
     private UserService userService;
     private LanguageManager languageManager;
 
@@ -27,10 +29,12 @@ public class GetAllUsersCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServiceException {
+        LOGGER.info(this.getClass().getSimpleName() + "  is running");
         languageManager = (LanguageManager) request.getSession().getAttribute("appLocale");
 
         List<User> allUsers = userService.getAllUsers();
         if (allUsers == null) {
+            LOGGER.warn("No users");
             return sendError(request);
         }
         request.getSession().setAttribute("allUser", allUsers);
@@ -41,10 +45,6 @@ public class GetAllUsersCommand extends Command {
     private CommandResult sendError(HttpServletRequest request) {
         request.getSession().setAttribute("error", languageManager.getMessage("no-user"));
         return CommandResult.forward(ERROR_PAGE);
-    }
-
-    public UserService getUserService() {
-        return userService;
     }
 
 }

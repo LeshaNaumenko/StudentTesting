@@ -4,6 +4,7 @@ import exceptions.PaginationException;
 import exceptions.ServiceException;
 import model.entity.TestDTO;
 import model.entity.User;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.TestService;
 import service.UserService;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetStudentResultCommand extends Command {
+
+    private final static Logger LOGGER = Logger.getLogger(GetStudentResultCommand.class);
     private UserService userService;
     private TestService testService;
     private LanguageManager languageManager;
@@ -34,8 +37,8 @@ public class GetStudentResultCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+        LOGGER.info(this.getClass().getSimpleName() + "  is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
-
         User student;
         int currentPage;
         Pagination pagination;

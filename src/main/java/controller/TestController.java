@@ -3,6 +3,7 @@ package controller;
 import exceptions.ServiceException;
 import controller.commands.CommandFactory;
 import controller.commands.CommandResult;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +22,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/test"})
 public class TestController extends HttpServlet {
 
+    private final static Logger LOGGER = Logger.getLogger(TestController.class);
+
     private static final String COMMAND = "command";
 
     /**
@@ -33,7 +36,6 @@ public class TestController extends HttpServlet {
      *
      * @param request  {@link HttpServletRequest}.
      * @param response {@link HttpServletResponse}.
-     *
      * @throws ServletException if any inner exception in servlet occurs
      * @throws IOException      if I/O error occurs.
      */
@@ -47,7 +49,6 @@ public class TestController extends HttpServlet {
      *
      * @param request  {@link HttpServletRequest}.
      * @param response {@link HttpServletResponse}.
-     *
      * @throws ServletException if any inner exception in servlet occurs
      * @throws IOException      if I/O error occurs.
      */
@@ -61,11 +62,11 @@ public class TestController extends HttpServlet {
      *
      * @param req  {@link HttpServletRequest}
      * @param resp {@link HttpServletResponse}
-     *
      * @throws ServletException if any inner exception in servlet occurs
      * @throws IOException      if I/O error occurs.
      */
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LOGGER.info("Processing request...");
         String strCommand = req.getParameter(COMMAND);
         if (strCommand != null) req.getSession().setAttribute(COMMAND_FOR_SESSION, strCommand); //for language
         String sessionCommand = (String) req.getSession().getAttribute(COMMAND_FOR_SESSION);
@@ -75,6 +76,7 @@ public class TestController extends HttpServlet {
             page = commandFactory.getCommand(sessionCommand).execute(req, resp);
         } catch (ServiceException serviceException) {
             page = CommandResult.forward("WEB-INF/error.jsp");
+            LOGGER.error(serviceException);
         }
         dispatch(req, resp, page);
     }
@@ -82,12 +84,11 @@ public class TestController extends HttpServlet {
     /**
      * The method determines which type of redirection to use.
      *
-     * @param req {@link HttpServletRequest}
+     * @param req  {@link HttpServletRequest}
      * @param resp {@link HttpServletResponse}
      * @param page to dispatch
-     *
      * @throws ServletException if any inner exception in servlet occurs
-     * @throws IOException if I/O error occurs.
+     * @throws IOException      if I/O error occurs.
      */
     private void dispatch(HttpServletRequest req, HttpServletResponse resp, CommandResult page)
             throws ServletException, IOException {

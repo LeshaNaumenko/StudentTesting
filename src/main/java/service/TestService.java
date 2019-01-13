@@ -11,6 +11,7 @@ import model.entity.Theme;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TestService {
     final static Logger logger = Logger.getLogger(TestService.class);
@@ -87,5 +88,12 @@ public class TestService {
 
     public long getTheDifferenceMinutes(long duration) {
         return duration / (60 * 1000) % 60;
+    }
+
+    public String calculateUserTime(long duration) {
+        return String.format("%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+        );
     }
 }

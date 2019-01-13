@@ -13,6 +13,7 @@ public class DAOException extends Exception {
 
     /**
      * Constructs a DAOException with the given detail message.
+     *
      * @param message The detail message of the DAOException.
      */
     public DAOException(String message) {
@@ -21,6 +22,7 @@ public class DAOException extends Exception {
 
     /**
      * Constructs a DAOException with the given detail message and root cause.
+     *
      * @param message The detail message of the DAOException.
      * @param cause The root cause of the DAOException.
      */
@@ -30,6 +32,7 @@ public class DAOException extends Exception {
 
     /**
      * Constructs a DAOException with the given root cause.
+     *
      * @param cause The root cause of the DAOException.
      */
     public DAOException(Throwable cause) {

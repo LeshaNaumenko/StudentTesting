@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LoginCheckCommand extends Command {
-    private final static Logger logger = Logger.getLogger(LoginCheckCommand.class);
+
+    private final static Logger LOGGER = Logger.getLogger(LoginCheckCommand.class);
     private UserService userService;
     private LanguageManager languageManager;
 
@@ -27,22 +28,30 @@ public class LoginCheckCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+        LOGGER.info(this.getClass().getSimpleName() + "  is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
         boolean validPassOrEmail = validation(req, email, password);
-        if (!validPassOrEmail) return CommandResult.forward(LOGIN_PAGE);
+        if (!validPassOrEmail) {
+            LOGGER.warn("Unknown user entered incorrect password or email");
+            return CommandResult.forward(LOGIN_PAGE);
+        }
 
         User user = userService.getUserBy("email", req.getParameter("email"));
-        if (!existsUser(user, req))return CommandResult.forward(LOGIN_PAGE);
+        if (!existsUser(user, req)){
+            LOGGER.warn("Unknown user entered invalid email - "+email);
+            return CommandResult.forward(LOGIN_PAGE);
+        }
 
         boolean verifyUserPassword = Encryption.verifyUserPassword(password, user.getHash(), user.getSalt());
         if (verifyUserPassword) {
-            logger.info("user[" + user.getId() + "] logged in");
+            LOGGER.info("User ID " + user.getId() + " is logged in.");
             setAttribute(req, user);
             return CommandResult.redirect(TEST_URL);
         } else {
+            LOGGER.warn("User ID " + user.getId() + " entered invalid data");
             req.setAttribute("error", languageManager.getMessage("unknown-user")); // Set error msg for ${error}
             return CommandResult.forward(LOGIN_PAGE);
         }
@@ -63,7 +72,6 @@ public class LoginCheckCommand extends Command {
     }
 
     /**
-     *
      * @param req
      * @param email
      * @param password

@@ -1,6 +1,7 @@
 package controller.commands;
 
 import exceptions.ServiceException;
+import org.apache.log4j.Logger;
 import service.ServiceFactory;
 import service.ThemeService;
 import utility.LanguageManager;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetCoursesNamesCommand extends Command {
+
+    private final static Logger LOGGER = Logger.getLogger(GetCoursesNamesCommand.class);
     private ThemeService themeService;
     private LanguageManager languageManager;
 
@@ -25,10 +28,11 @@ public class GetCoursesNamesCommand extends Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+        LOGGER.info(this.getClass().getSimpleName() + " is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
-        System.out.println(themeService);
         List<String> courses = themeService.getCourses();
         if (courses == null) {
+            LOGGER.warn("No courses");
             return sendError(req);
         }
         req.getSession().setAttribute("course_name_list", courses);
