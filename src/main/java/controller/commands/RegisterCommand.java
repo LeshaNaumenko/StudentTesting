@@ -12,6 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class {@code RegisterCommand} is used to register a user.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class RegisterCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(GetThemesByCourseCommand.class);
@@ -21,13 +30,12 @@ public class RegisterCommand extends Command {
     public RegisterCommand() {
         this.userService = ServiceFactory.getInstance().getUserService();
     }
-
     public RegisterCommand(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         LOGGER.info(this.getClass().getSimpleName() + " is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         String firstName = req.getParameter("fname");
@@ -41,8 +49,8 @@ public class RegisterCommand extends Command {
             return CommandResult.forward(REGISTRATION_PAGE);
         }
         User user = userService.getUserBy("email", email);
-        if (existsUser(user, req)){
-            LOGGER.warn("Unknown user attempted to register by existing email - "+email);
+        if (existsUser(user, req)) {
+            LOGGER.warn("Unknown user attempted to register by existing email - " + email);
             return CommandResult.forward(REGISTRATION_PAGE);
         }
         EncryptionBuilder encryptionBuilder = new EncryptionBuilder(password);
@@ -68,15 +76,16 @@ public class RegisterCommand extends Command {
         return false;
     }
 
+
     /**
-     * Returns variable is used to immediately display all error messages.
+     * Method to check if the user data is valid.
      *
-     * @param req
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param password
-     * @return validParameters.
+     * @param req {@link HttpServletRequest}
+     * @param firstName is user first name
+     * @param lastName is user last name
+     * @param email is user email
+     * @param password is user password
+     * @return validParameters. This variable is used to immediately display all error messages.
      */
     private boolean checkParameters(HttpServletRequest req, String firstName, String lastName, String email, String password) {
         boolean validParameters = true;

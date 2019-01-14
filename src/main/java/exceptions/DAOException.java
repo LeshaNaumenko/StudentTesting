@@ -6,10 +6,13 @@ package exceptions;
  * @author Alex Naumenko
  */
 public class DAOException extends Exception {
+
+    /**
+     * Default constructor.
+     */
     public DAOException() {
         super();
     }
-
 
     /**
      * Constructs a DAOException with the given detail message.

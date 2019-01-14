@@ -56,7 +56,6 @@ public class SaveTheResultCommandTest {
         when(session.getAttribute("listOfQuestion")).thenReturn(questions);
         when(session.getAttribute("startTime")).thenReturn(System.currentTimeMillis());
         when(session.getAttribute("user")).thenReturn(new User());
-        when(testService.getTheDifferenceMinutes(5)).thenReturn(10L);
         when(testService.createTest(any(model.entity.Test.class))).thenReturn(new model.entity.Test.Builder().build());
 
         SaveTheResultCommand command = new SaveTheResultCommand(themeService, testService, answerService);

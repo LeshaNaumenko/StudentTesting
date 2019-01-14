@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  */
 public final class ConnectionPool {
 
-    private static final Logger logger = Logger.getLogger(ConnectionPool.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class.getName());
     private static volatile DataSource dataSource;
 
     /**
@@ -55,7 +55,7 @@ public final class ConnectionPool {
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {
-            logger.fatal(e.getMessage());
+            LOGGER.fatal(e.getMessage());
             throw new RuntimeException("Hasn't found connection with database");
         }
     }

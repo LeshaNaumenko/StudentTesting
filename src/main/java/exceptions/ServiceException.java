@@ -1,6 +1,15 @@
 package exceptions;
 
+/**
+ * This class represents a service exception.
+ *
+ * @author Alex Naumenko
+ */
 public class ServiceException extends Exception {
+
+    /**
+     * Default constructor.
+     */
     public ServiceException() {
         super();
     }

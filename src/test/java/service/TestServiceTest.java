@@ -4,7 +4,7 @@ import dao.ITestDAO;
 import dao.IThemeDAO;
 import exceptions.DAOException;
 import exceptions.ServiceException;
-import model.entity.TestDTO;
+import model.entity.TestInfo;
 import model.entity.Theme;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,8 +62,8 @@ public class TestServiceTest {
 
     @Test
     public void getResultsById() throws DAOException, ServiceException {
-        when(testDao.getTestResults(anyInt(), anyInt(), anyInt())).thenReturn(Arrays.asList(new TestDTO(), new TestDTO(), new TestDTO()));
-        List<TestDTO> resultsById = testService.getResultsById(1, 1, 1);
+        when(testDao.getTestResults(anyInt(), anyInt(), anyInt())).thenReturn(Arrays.asList(new TestInfo(), new TestInfo(), new TestInfo()));
+        List<TestInfo> resultsById = testService.getResultsById(1, 1, 1);
         assertNotNull(resultsById);
     }
 
@@ -109,16 +109,4 @@ public class TestServiceTest {
         testService.getDuration(5, 6);
     }
 
-    @Test
-    public void getTheDifferenceSeconds() {
-        long theDifferenceSeconds = testService.getTheDifferenceSeconds(15470);
-        assertEquals(15, theDifferenceSeconds);
-    }
-
-
-    @Test
-    public void getTheDifferenceMinutes() {
-        long theDifferenceMinutes = testService.getTheDifferenceMinutes(15470332);
-        assertEquals(17, theDifferenceMinutes);
-    }
 }

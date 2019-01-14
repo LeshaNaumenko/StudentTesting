@@ -4,7 +4,7 @@ import dao.AbstractDao;
 import dao.ITestDAO;
 import exceptions.DAOException;
 import model.entity.Test;
-import model.entity.TestDTO;
+import model.entity.TestInfo;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -77,8 +77,8 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         return INSERT_TEST;
     }
 
-    public List<TestDTO> getTestResults(Integer id, Integer start, Integer recordsPerPage) throws DAOException {
-        List<TestDTO> listTestDTO = new ArrayList<>();
+    public List<TestInfo> getTestResults(Integer id, Integer start, Integer recordsPerPage) throws DAOException {
+        List<TestInfo> listTestInfo = new ArrayList<>();
         String sql = GET_STUDENT_RESULTS;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
@@ -86,7 +86,7 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
             preparedStatement.setInt(3, recordsPerPage);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                listTestDTO.add(new TestDTO.TestDTOBuilder()
+                listTestInfo.add(new TestInfo.TestDTOBuilder()
                         .setTestId(resultSet.getInt(1))
                         .setCourseName(resultSet.getString(2))
                         .setThemeName(resultSet.getString(3))
@@ -105,7 +105,7 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
                     "Error message: " + e.getMessage());
             throw new DAOException(e);
         }
-        return listTestDTO;
+        return listTestInfo;
     }
 
     public Integer getNumberOfRows(Integer id) throws DAOException {

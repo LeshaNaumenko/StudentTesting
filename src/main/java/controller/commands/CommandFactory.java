@@ -4,8 +4,17 @@ import javax.naming.ldap.ControlFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class @{@code CommandFactory} used for getting {@link Command}s to process requests.
+ *
+ * @author Alex Naumenko
+ */
 public class CommandFactory {
     private static volatile CommandFactory commandFactory;
+
+    /**
+     * @{code actionMap} is a map to store commands {@link Command} by name.
+     */
     private final Map<String, Command> actionMap = new HashMap<>();
 
     public CommandFactory() {
@@ -20,6 +29,12 @@ public class CommandFactory {
         actionMap.put("LOGOUT", new LogoutCommand());
         actionMap.put("REGISTER_FORWARD", new RegisterForwardCommand());
     }
+
+    /**
+     * Return CommandFactory instance.
+     *
+     * @return CommandFactory instance.
+     */
     public static CommandFactory getInstance(){
         if (commandFactory==null){
             synchronized (ControlFactory.class){
@@ -31,8 +46,13 @@ public class CommandFactory {
          return commandFactory;
     }
 
+    /**
+     * Return {@link Command} by its command name.
+     *
+     * @param commandFromController command name.
+     * @return {@link Command}
+     */
     public Command getCommand(String commandFromController) {
-
         if (actionMap.containsKey(commandFromController))
             return actionMap.get(commandFromController.toUpperCase());
         else

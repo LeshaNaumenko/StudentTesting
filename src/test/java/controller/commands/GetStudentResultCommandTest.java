@@ -1,7 +1,7 @@
 package controller.commands;
 
 import exceptions.ServiceException;
-import model.entity.TestDTO;
+import model.entity.TestInfo;
 import model.entity.User;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public class GetStudentResultCommandTest {
     @Parameterized.Parameter()
     public String expectedPage;
     @Parameterized.Parameter(1)
-    public List<TestDTO> testDTOArg;
+    public List<TestInfo> testInfoArg;
     @Parameterized.Parameter(2)
     public int studentId;
     @Before
@@ -63,7 +63,7 @@ public class GetStudentResultCommandTest {
 
         when(request.getSession().getAttribute("currentPage")).thenReturn(1);
 
-        when(testService.getResultsById(anyInt(),anyInt(), anyInt())).thenReturn(testDTOArg);
+        when(testService.getResultsById(anyInt(),anyInt(), anyInt())).thenReturn(testInfoArg);
 
         GetStudentResultCommand command = new GetStudentResultCommand(userService, testService);
         CommandResult execute = command.execute(request, response);
@@ -77,7 +77,7 @@ public class GetStudentResultCommandTest {
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {CommandPages.ERROR_PAGE, null, 1},
-                {CommandPages.RESULTS_PAGE, Arrays.asList(new TestDTO.TestDTOBuilder()
+                {CommandPages.RESULTS_PAGE, Arrays.asList(new TestInfo.TestDTOBuilder()
                         .setCourseName("test").build()), 2 }
         });
     }

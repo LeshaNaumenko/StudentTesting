@@ -6,6 +6,10 @@ package exceptions;
  * @author Alex Naumenko
  */
 public class PaginationException extends Exception {
+
+    /**
+     * Default constructor.
+     */
     public PaginationException() {
         super();
     }

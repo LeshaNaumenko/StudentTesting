@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${appLocale.locale}" scope="session"/>
 <fmt:setBundle basename="pagecontent.messages"/>
-<c:set var="listdto" value='${requestScope["testDTOList"]}'/>
+<c:set var="listdto" value='${requestScope["testInfoList"]}'/>
 <div class="std-info">
     <h3 style="text-align: center"><c:out
             value="${sessionScope.student.firstName} ${sessionScope.student.lastName}"/></h3>

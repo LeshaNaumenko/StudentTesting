@@ -8,6 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class {@code UndefinedCommand} is used to forward to the error page.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class UndefinedCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(UndefinedCommand.class);

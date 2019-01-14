@@ -2,7 +2,7 @@ package controller.commands;
 
 import exceptions.PaginationException;
 import exceptions.ServiceException;
-import model.entity.TestDTO;
+import model.entity.TestInfo;
 import model.entity.User;
 import org.apache.log4j.Logger;
 import service.ServiceFactory;
@@ -17,6 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+
+/**
+ * Class {@code GetStudentResultCommand} is used to get all tests for certain student.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ * @see Pagination
+ */
 public class GetStudentResultCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(GetStudentResultCommand.class);
@@ -36,7 +47,7 @@ public class GetStudentResultCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         LOGGER.info(this.getClass().getSimpleName() + "  is running");
         languageManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         User student;
@@ -52,14 +63,15 @@ public class GetStudentResultCommand extends Command {
         currentPage = (int) req.getSession().getAttribute("currentPage");
         try {
             pagination = new Pagination(RECORDS_ON_THE_PAGE, currentPage);
-            List<TestDTO> testDTOList = testService.getResultsById(student.getId(), pagination.calculateStart(), RECORDS_ON_THE_PAGE);
-            if (testDTOList == null || testDTOList.isEmpty()) {
+            List<TestInfo> testInfoList = testService.getResultsById(student.getId(), pagination.calculateStart(), RECORDS_ON_THE_PAGE);
+            if (testInfoList == null || testInfoList.isEmpty()) {
                 return sendError(req);
             }
             int rows = testService.getNumberOfRows(student.getId());
 
-            setAttribute(req, pagination, testDTOList, rows);
+            setAttribute(req, pagination, testInfoList, rows);
         } catch (PaginationException e) {
+            LOGGER.error("Pagination error", e);
             return sendError(req);
         }
         return CommandResult.forward(RESULTS_PAGE);
@@ -82,10 +94,10 @@ public class GetStudentResultCommand extends Command {
         }
     }
 
-    private void setAttribute(HttpServletRequest req, Pagination pagination, List<TestDTO> testDTOList, int rows) throws PaginationException {
+    private void setAttribute(HttpServletRequest req, Pagination pagination, List<TestInfo> testInfoList, int rows) throws PaginationException {
         req.setAttribute("noOfPages", pagination.calculateNumOfPages(rows));
         req.getSession().setAttribute("currentPage", pagination.getCurrentPage());
         req.setAttribute("recordsPerPage", pagination.getRecordsPerPage());
-        req.setAttribute("testDTOList", testDTOList);
+        req.setAttribute("testInfoList", testInfoList);
     }
 }

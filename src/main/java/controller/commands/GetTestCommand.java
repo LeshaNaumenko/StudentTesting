@@ -16,11 +16,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Class {@code GetTestCommand} is used to get all questions on a specific theme.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class GetTestCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(GetTestCommand.class);
-    private ThemeService themeService ;
-    private QuestionService questionService ;
+    private ThemeService themeService;
+    private QuestionService questionService;
     private LanguageManager langManager;
 
     public GetTestCommand() {
@@ -34,7 +43,7 @@ public class GetTestCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         LOGGER.info(this.getClass().getSimpleName() + "  is running");
         langManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         Integer themeId = Integer.parseInt(req.getParameter("theme_id"));
@@ -42,7 +51,7 @@ public class GetTestCommand extends Command {
         Integer time = theme.getTime();
         Locale locale = langManager.getLocale();
         List<Question> questionList = questionService.getQuestions(themeId, locale);
-        if (questionList == null||questionList.isEmpty()) {
+        if (questionList == null || questionList.isEmpty()) {
             LOGGER.warn("No questions");
             return sendError(req, langManager);
         } else {

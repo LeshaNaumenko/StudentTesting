@@ -12,6 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class {@code LoginCheckCommand} is used to authorize the user.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class LoginCheckCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(LoginCheckCommand.class);
@@ -72,10 +81,12 @@ public class LoginCheckCommand extends Command {
     }
 
     /**
-     * @param req
-     * @param email
-     * @param password
-     * @return validPassOrEmail. This variable  is used to immediately display all error messages.
+     * Method to determine if the user is valid.
+     *
+     * @param req {@link HttpServletRequest}
+     * @param email is user email.
+     * @param password is user password.
+     * @return validPassOrEmail. This variable is used to immediately display all error messages.
      */
     private boolean validation(HttpServletRequest req, String email, String password) {
         boolean validPassOrEmail = true;

@@ -34,23 +34,32 @@
                 <table class="table" border="2">
                     <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
-                        <th><fmt:message key="theme-name-test-page"/></th>
-                        <th><fmt:message key="course-name-test-page"/></th>
-                        <th><fmt:message key="time-test-page"/></th>
-                        <th><fmt:message key="grade-test-page"/></th>
+                        <th style="width: 5%">#</th>
+                        <th style="width: 20%"><fmt:message key="course-name-test-page"/></th>
+                        <th style="width: 20%"><fmt:message key="theme-name-test-page"/></th>
+                        <th style="width: 10%"><fmt:message key="time-test-page"/></th>
+                        <th style="width: 20%"><fmt:message key="grade-test-page"/></th>
+                        <th style="width: 10%"></th>
                     </tr>
                     </thead>
                     <tbody>
+                    <c:set var="counter" value="0"/>
                     <c:forEach items="${themesByCourse}" var="theme">
                         <tr>
-                            <th scope="row"><c:out value="${theme.id}"/></th>
-                            <td><a class="nav-link" href="/test?theme_id=<c:out value="${theme.id}"/>&command=GET_TEST"/>
-                                <c:out value="${theme.themeName}"/></td>
+                            <th scope="row"><c:out value="${counter+1}"/></th>
                             <td><c:out value="${theme.courseName}"/></td>
+                            <td><c:out value="${theme.themeName}"/></td>
                             <td><c:out value="${theme.time}"/><fmt:message key="minutes"/> </td>
                             <td><c:out value="${theme.passingGrade}"/>%</td>
+                            <td bgcolor="#007bff">
+                                <form class="my-form-menu" action="/test" method="post">
+                                    <input type="hidden" name="theme_id" value="<c:out value="${theme.id}"/>">
+                                    <input type="hidden" name="command" value="GET_TEST">
+                                    <input style="color: white" class="nav-link" type="submit" value="<fmt:message key="start-test"/>">
+                                </form>
+                            </td>
                         </tr>
+                        <c:set var="counter" value="${counter+1}"/>
                     </c:forEach>
                     </tbody>
                 </table>

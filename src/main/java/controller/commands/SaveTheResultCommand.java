@@ -16,6 +16,15 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class {@code SaveTheResultCommand} is used to save user's result.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class SaveTheResultCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(SaveTheResultCommand.class);
@@ -87,7 +96,6 @@ public class SaveTheResultCommand extends Command {
             parameters.add((Objects.nonNull(parameter) ? parameter : ""));
         }
         return parameters;
-
     }
 
     private void removeAttribute(HttpServletRequest req) {
@@ -101,6 +109,7 @@ public class SaveTheResultCommand extends Command {
         req.getSession().setAttribute("answers", answers);
 
     }
+
     private String setFormatForDate(Date date) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }

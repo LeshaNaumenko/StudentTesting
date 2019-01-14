@@ -12,6 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Class {@code GetCoursesNamesCommand} is used to get all courses name.
+ *
+ * @author Alex Naumenko
+ * @see Command
+ * @see CommandPages
+ * @see CommandFactory
+ * @see CommandResult
+ */
 public class GetCoursesNamesCommand extends Command {
 
     private final static Logger LOGGER = Logger.getLogger(GetCoursesNamesCommand.class);

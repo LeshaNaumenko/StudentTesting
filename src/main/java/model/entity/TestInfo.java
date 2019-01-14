@@ -1,82 +1,82 @@
 package model.entity;
 
 /**
- * Class {@code TestDTO} represents the TestDTO model. This class contains a portion of the fields that belong
+ * Class {@code TestInfo} represents the TestInfo model. This class contains a portion of the fields that belong
  * to the {@code Test) and the {@code Themes} classes and is used to transfer data to the client.
  * This model class can be used throughout all layers, the data layer, the controller layer and the view layer.
  *
  * @author Alex Naumenko
  */
-public class TestDTO {
+public class TestInfo {
 
     /**
-     * Id of TestDTO.
+     * Id of TestInfo.
      */
     private int testId;
 
     /**
-     * Course name of TestDTO.
+     * Course name of TestInfo.
      */
     private String courseName;
 
     /**
-     * Theme name of TestDTO.
+     * Theme name of TestInfo.
      */
     private String themeName;
 
     /**
-     * Date of TestDTO.
+     * Date of TestInfo.
      */
     private String date;
 
     /**
-     * Start time of TestDTO.
+     * Start time of TestInfo.
      */
     private String startTime;
 
     /**
-     * End time of TestDTO.
+     * End time of TestInfo.
      */
     private String endTime;
 
     /**
-     * Theme time of TestDTO.
+     * Theme time of TestInfo.
      */
     private Integer themeTime;
 
     /**
-     * User time of TestDTO.
+     * User time of TestInfo.
      */
     private String userTime;
 
     /**
-     * Passing grade of TestDTO.
+     * Passing grade of TestInfo.
      */
     private Integer passingGrade;
 
     /**
-     * Grade of TestDTO.
+     * Grade of TestInfo.
      */
     private Integer grade;
 
     /**
-     * Status of TestDTO.
+     * Status of TestInfo.
      */
     private Test.Status status;
 
     /**
      * Default constructor.
      */
-    public TestDTO() {
+    public TestInfo() {
     }
 
     /**
      * Constructs test data transfer object with test dto builder parameter.
      *
      * @param testDtoBuilder
-     * @see model.entity.TestDTO.TestDTOBuilder
+     * @see TestInfo.TestDTOBuilder
      */
-    public TestDTO(TestDTOBuilder testDtoBuilder) {
+    public TestInfo(TestDTOBuilder testDtoBuilder) {
         this.testId = testDtoBuilder.testId;
         this.courseName = testDtoBuilder.courseName;
         this.themeName = testDtoBuilder.themeName;
@@ -91,99 +91,99 @@ public class TestDTO {
     }
 
     /**
-     * Returns test id of TestDTO.
+     * Returns test id of TestInfo.
      *
-     * @return test id of TestDTO.
+     * @return test id of TestInfo.
      */
     public int getTestId() {
         return testId;
     }
 
     /**
-     * Returns course name of TestDTO.
+     * Returns course name of TestInfo.
      *
-     * @return course name of TestDTO.
+     * @return course name of TestInfo.
      */
     public String getCourseName() {
         return courseName;
     }
 
     /**
-     * Returns theme name of TestDTO.
+     * Returns theme name of TestInfo.
      *
-     * @return theme name of TestDTO.
+     * @return theme name of TestInfo.
      */
     public String getThemeName() {
         return themeName;
     }
 
     /**
-     * Returns date of TestDTO.
+     * Returns date of TestInfo.
      *
-     * @return date of TestDTO.
+     * @return date of TestInfo.
      */
     public String getDate() {
         return date;
     }
 
     /**
-     * Returns start time of TestDTO.
+     * Returns start time of TestInfo.
      *
-     * @return start time of TestDTO.
+     * @return start time of TestInfo.
      */
     public String getStartTime() {
         return startTime;
     }
 
     /**
-     * Returns end time of TestDTO.
+     * Returns end time of TestInfo.
      *
-     * @return end time of TestDTO.
+     * @return end time of TestInfo.
      */
     public String getEndTime() {
         return endTime;
     }
 
     /**
-     * Returns time of TestDTO.
+     * Returns time of TestInfo.
      *
-     * @return time of TestDTO.
+     * @return time of TestInfo.
      */
     public Integer getThemeTime() {
         return themeTime;
     }
 
     /**
-     * Returns user time of TestDTO.
+     * Returns user time of TestInfo.
      *
-     * @return user time of TestDTO.
+     * @return user time of TestInfo.
      */
     public String getUserTime() {
         return userTime;
     }
 
     /**
-     * Returns passing grade of TestDTO.
+     * Returns passing grade of TestInfo.
      *
-     * @return passing grade of TestDTO.
+     * @return passing grade of TestInfo.
      */
     public Integer getPassingGrade() {
         return passingGrade;
     }
 
     /**
-     * Returns grade of TestDTO.
+     * Returns grade of TestInfo.
      *
-     * @return grade of TestDTO.
+     * @return grade of TestInfo.
      */
     public Integer getGrade() {
         return grade;
     }
 
     /**
-     * Returns status of TestDTO.
+     * Returns status of TestInfo.
      *
-     * @return status of TestDTO.
+     * @return status of TestInfo.
      */
     public Test.Status getStatus() {
         return status;
@@ -375,8 +375,8 @@ public class TestDTO {
          *
          * @return the testDTO builder
          */
-        public TestDTO build() {
-            return new TestDTO(this);
+        public TestInfo build() {
+            return new TestInfo(this);
         }
     }
 

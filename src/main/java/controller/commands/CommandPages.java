@@ -1,5 +1,10 @@
 package controller.commands;
 
+/**
+ * The class contains the constants of paths to jsp pages.
+ *
+ * @author Alex Naumenko
+ */
 public interface CommandPages {
     String ACCOUNT_PAGE = "WEB-INF/accounts.jsp";
     String ERROR_PAGE = "WEB-INF/error.jsp";

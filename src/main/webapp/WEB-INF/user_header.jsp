@@ -84,27 +84,9 @@
             // there is an official order for the query and the hash if you didn't know.
             location.assign(location.origin + location.pathname + str + location.hash)
         };
-        /*        $(function () {
-                    setNavigation();
-                });
-
-                function setNavigation() {
-                    var path = window.location.pathname;
-                    path = path.replace(/\/$/, "");
-                    path = decodeURIComponent(path);
-
-                    $(".mynav a").each(function () {
-                        var href = $(this).attr('href');
-                        if (path.substring(0, href.length) === href) {
-                            $(this).closest('li').addClass('active');
-                        }
-                    });
-                };*/
-
     </script>
-    <%--<script type="text/javascript" src="<c:url value="../js/my.js"/>"></script>--%>
 </head>
-<body style="background-color: #4e555b">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark my-menu">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -139,6 +121,8 @@
                         <input type="hidden" name="command" value="LOGOUT">
                         <input class="nav-link" class="nav-link" type="submit" value="<fmt:message key="log-out"/>">
                     </form>
+                </li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
@@ -151,8 +135,8 @@
                     <a href="javascript:replace_search('lang', 'EN');">EN</a>
                 </li>
                 <li class="nav-item">
-                    <span style="color: white;font-size: 10px">[${sessionScope.user.firstName}</span>
-                    <span style="color: white;font-size: 10px">${sessionScope.user.lastName}]</span>
+                    <span style="color: white;font-size: 10px">${sessionScope.user.firstName}</span>
+                    <span style="color: white;font-size: 10px">${sessionScope.user.lastName} [<fmt:message key="${sessionScope.user.role}"/>]</span><br>
                 </li>
             </ul>
         </div>
