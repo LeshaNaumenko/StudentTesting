@@ -27,11 +27,11 @@
                     <th scope="col" ><fmt:message key="passing-score-result-of-test"/></th>
                     <th scope="col" ><fmt:message key="your-score-result-of-test"/></th>
                     <th scope="col" ><fmt:message key="status-result-of-test"/></th>
-                    <th scope="col" ><fmt:message key="more"/></th>
+                    <%--<th scope="col" ><fmt:message key="more"/></th>--%>
                 </tr>
                 </thead>
                 <tbody>
-                <c:set var="counter" value="1"/>
+                <c:set var="counter" value="${requestScope.start+1}"/>
                 <c:forEach var="dto" items="${listdto}">
                     <tr>
                         <th scope="row">${counter}</th>
@@ -57,14 +57,13 @@
                         <td >${dto.grade}%</td>
                         <c:choose>
                             <c:when test="${dto.grade lt dto.passingGrade }">
-                                <td align="center" class="bg-danger"><fmt:message key="${dto.status}"/></td>
+                                <td align="center" class="table-danger"><fmt:message key="${dto.status}"/></td>
                             </c:when>
                             <c:otherwise>
-                                <td align="center" class="bg-success"><fmt:message key="${dto.status}"/></td>
+                                <td align="center" class="table-success"><fmt:message key="${dto.status}"/></td>
                             </c:otherwise>
                         </c:choose>
-                        <%--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!--%>
-                        <td><a class="nav-link" href="/test?more=<c:out value="${dto.testId}"/>">More</a></td>
+                        <%--<td><a class="nav-link" href="/test?more=<c:out value="${dto.testId}"/>">More</a></td>--%>
                     </tr>
                     <c:set var="counter" value="${counter+1}"/>
                 </c:forEach>
@@ -80,7 +79,8 @@
                         <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
                         <input type="hidden" name="currentPage" value="${sessionScope.currentPage-1}">
                         <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
-                        <input class="nav-link" type="submit" value="Previous">
+
+                        <input class="nav-link" type="submit" value="<<">
                     </form>
                     </li>
                 </c:if>
@@ -118,7 +118,7 @@
                             <input type="hidden" name="recordsPerPage" value="${recordsPerPage}">
                             <input type="hidden" name="currentPage" value="${sessionScope.currentPage+1}">
                                 <%--<input class="nav-link" type="submit" value="<fmt:message key="results-menu"/>">--%>
-                            <input class="nav-link" type="submit" value="Next">
+                            <input class="nav-link" type="submit" value=">>">
                         </form>
                     </li>
                 </c:if>

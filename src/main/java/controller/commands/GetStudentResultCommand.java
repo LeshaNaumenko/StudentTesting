@@ -95,6 +95,7 @@ public class GetStudentResultCommand extends Command {
     }
 
     private void setAttribute(HttpServletRequest req, Pagination pagination, List<TestInfo> testInfoList, int rows) throws PaginationException {
+        req.setAttribute("start", pagination.calculateStart());
         req.setAttribute("noOfPages", pagination.calculateNumOfPages(rows));
         req.getSession().setAttribute("currentPage", pagination.getCurrentPage());
         req.setAttribute("recordsPerPage", pagination.getRecordsPerPage());

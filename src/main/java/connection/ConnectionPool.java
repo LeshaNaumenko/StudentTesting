@@ -56,6 +56,7 @@ public final class ConnectionPool {
             return getDataSource().getConnection();
         } catch (SQLException e) {
             LOGGER.fatal(e.getMessage());
+            System.out.println(e.getMessage());
             throw new RuntimeException("Hasn't found connection with database");
         }
     }

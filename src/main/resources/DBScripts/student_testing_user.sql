@@ -1,0 +1,6 @@
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (1, 'Alex', 'Naumenko', 'naum9009@gmail.com', '8f7869f17efdc294598f6b9be25aae5f', 0xBBB9ADE94D5E41F4138FBDE2CFF59CDF, 'ADMIN');
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (8, 'Lesha', 'Naumenko', 'naymenko213@gmail.com', 'fa3771edd50e0ef37aefa4d53f7130b8', 0x0440781ACCC199769406AEF99D2F19B1, 'USER');
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (11, 'Леша', 'Naumenko', 'naymenko213@gmail.ua', '43e985bb9cc8646b3876a0492db3978d', 0x02C963D3B0763DC3466C83BD119C90D6, 'USER');
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (12, 'Лера', 'Мартыненко', 'lerkamart302@gmail.com', 'ffa0e3acf5cd6c48aeeed52e9090501f', 0x188FCBBC8514B3FF3930F79EAE7FCB15, 'USER');
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (16, 'jdfs', 'dsfd', 'naum009gh@gmail.com', '79f094f1e5c96a812fa10d548a80d423', 0x8F7A6F56C46867CC4B01503AD2BC7FFB, 'USER');
+INSERT INTO student_testing.user (id, first_name, last_name, email, password, salt, role) VALUES (17, 'укакуаук', 'куаукаука', 'naymenko3434213@gmail.com', '4daa891f5030466cfae2159d2d3a0185', 0x09D3643DE231BAA1D2D88BD781793779, 'USER');

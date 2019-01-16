@@ -45,7 +45,7 @@
             <tr>
                 <th scope="row"><fmt:message key="your-time-result-of-test"/></th>
                 <c:set var="dateParts" value="${fn:split(sessionScope.userTime, ':')}"/>
-                <td ><c:out value="${dateParts[0]}"/><fmt:message key="minutes"/> <c:out
+                <td><c:out value="${dateParts[0]}"/><fmt:message key="minutes"/> <c:out
                         value="${dateParts[1]}"/><fmt:message key="seconds"/></td>
             </tr>
             <tr>
@@ -76,13 +76,24 @@
             <tbody>
             <c:set var="counter" value="${0}"/>
             <c:forEach items="${answers}" var="answer">
-            <c:set var="counter" value="${counter+1}"/>
+                <c:set var="counter" value="${counter+1}"/>
                 <tr>
                     <td rowspan=2><c:out value="${counter}"/></td>
                     <td colspan="2">
                         <div><c:out value="${answer.question}"/></div>
                     </td>
-                    <td rowspan=2><fmt:message key="${answer.status}"/></td>
+                    <c:choose>
+                        <c:when test="${answer.status eq 'INCORRECT'}">
+                            <td rowspan=2 class="table-danger">
+                                <fmt:message key="${answer.status}"/>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td rowspan=2 class="table-success">
+                                <fmt:message key="${answer.status}"/>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
                 <tr>
                     <td style="width: 50%">

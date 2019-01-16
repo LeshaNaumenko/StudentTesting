@@ -25,6 +25,5 @@ public class LogoutCommand extends Command {
         LOGGER.info(this.getClass().getSimpleName() + " is running");
         req.getSession().invalidate();
         return CommandResult.redirect(LOGIN_PAGE);
-
     }
 }

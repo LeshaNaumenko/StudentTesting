@@ -11,8 +11,8 @@ public abstract class AbstractDao<T, K> {
     private final static Logger LOGGER = Logger.getLogger(AbstractDao.class);
     public Connection connection;
 
-    public AbstractDao(Connection connection)  {
-            this.connection = connection;
+    public AbstractDao(Connection connection) {
+        this.connection = connection;
     }
 
     public abstract String getCreateQuery();
@@ -31,6 +31,7 @@ public abstract class AbstractDao<T, K> {
         int id;
         String sql = getCreateQuery();
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
             prepareStatementForInsert(statement, object);
             int count = statement.executeUpdate();
             if (count != 1) {
@@ -49,6 +50,13 @@ public abstract class AbstractDao<T, K> {
             persistInstance = list.iterator().next();
             return persistInstance;
         } catch (Exception e) {
+            try {
+                LOGGER.warn("Transaction is being rolled back");
+                connection.rollback();
+            } catch (SQLException exp) {
+                LOGGER.error("Exception during rollback: "+exp);
+                throw new DAOException(exp);
+            }
             LOGGER.error("Exception on create new entity. \n" +
                     "Error message: " + e.getMessage());
             throw new DAOException(e);

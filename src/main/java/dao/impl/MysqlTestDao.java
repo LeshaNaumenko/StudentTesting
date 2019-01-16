@@ -54,10 +54,14 @@ public class MysqlTestDao extends AbstractDao<Test, Integer> implements ITestDAO
         return GET_ALL_TEST;
     }
 
-    //используется с join в questions с именем курса
+    /**
+     * used with join in questions with the name of the course
+     *
+     * @return sql request
+     */
     @Override
     public String getSelectQueryForList() {
-        return getSelectQuery();
+        return GET_ALL_TEST;
     }
 
     @Override

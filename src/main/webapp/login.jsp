@@ -26,14 +26,14 @@
             <input name="command" type="hidden" value="LOGIN_CHECK">
             <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="signIn"/></h1>
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input value="naum9009@gmail.com" type="email" id="inputEmail" name="email" class="form-control"
+            <input  type="email" id="inputEmail" name="email" class="form-control"
                    placeholder="<fmt:message key="email-form"/>" required
                    autofocus>
             <c:if test="${requestScope.errEmailMessage != null}">
                 <small class="err-message-register"><c:out value="${requestScope.errEmailMessage}"/></small>
             </c:if>
             <label for="inputPassword" class="sr-only">Password</label>
-            <input value="18101996Alex" type="password" id="inputPassword" name="password" class="form-control"
+            <input  type="password" id="inputPassword" name="password" class="form-control"
                    placeholder="<fmt:message key="password-form"/>" required>
             <c:if test="${requestScope.errPassMessage != null}">
                 <small class="err-message-register"><c:out value="${requestScope.errPassMessage}"/></small>
