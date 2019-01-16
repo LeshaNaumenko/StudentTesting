@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Alex Naumenko
  */
-public interface IAnswerDAO<T extends Answer, K> {
+    public interface IAnswerDAO<T extends Answer, K> {
 
     /**
      * Return information about all answers.

@@ -33,10 +33,19 @@
     text-align: center;
 
 }
-
-
-
-
 .login-help{
     font-size: 12px;
+}
+.my-form-menu {
+    margin-bottom: 0;
+}
+
+.my-form-menu input {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.my-form-menu::before,
+.my-form-menu::after {
+    box-sizing: content-box;
 }

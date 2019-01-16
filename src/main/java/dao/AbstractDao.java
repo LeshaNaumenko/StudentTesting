@@ -48,6 +48,7 @@ public abstract class AbstractDao<T, K> {
                 throw new DAOException("Exception on create new entity.");
             }
             persistInstance = list.iterator().next();
+            connection.commit();
             return persistInstance;
         } catch (Exception e) {
             try {

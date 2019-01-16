@@ -22,13 +22,6 @@
         <input name="command" type="hidden" value="SAVE_THE_RESULTS">
         <div class="countdown"></div>
         <table class="table table-bordered">
-           <%-- <thead>
-            <tr>
-                <th colspan="2">
-                    <h3 text-align="center">Calm down! You can do it!  </h3>
-                </th>
-            </tr>
-            </thead>--%>
             <tbody>
             <%
                 int counte = 0;

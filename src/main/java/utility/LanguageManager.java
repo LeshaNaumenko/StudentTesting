@@ -11,13 +11,12 @@ public enum LanguageManager {
 
     LanguageManager() {
         Locale defLoc = Locale.getDefault();
-        if (Stream.of(Language.values()).anyMatch((o) -> defLoc.equals(o.getLocale())))
-            locale = defLoc;
+        exist(defLoc);
         resourceBundle = ResourceBundle.getBundle("pagecontent.messages", locale);
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setLocale(String locale) {
+        exist(locale);
         resourceBundle = ResourceBundle.getBundle("pagecontent.messages", this.locale);
     }
 
@@ -28,4 +27,15 @@ public enum LanguageManager {
     public Locale getLocale() {
         return locale;
     }
+    private void exist(Locale defLoc) {
+        if (Stream.of(Language.values()).anyMatch((o) -> defLoc.equals(o.getLocale())))
+            this.locale = defLoc;
+    }
+    private void exist(String lang) {
+        if (Stream.of(Language.values()).anyMatch((o) -> lang.equals(o.name())))
+            this.locale = Language.valueOf(lang).getLocale();
+        else
+            this.locale = Locale.getDefault();
+    }
+
 }

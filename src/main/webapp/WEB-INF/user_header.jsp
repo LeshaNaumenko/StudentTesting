@@ -10,66 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StudentTesting</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <%--<link href="<c:url value="../css/user.css" />"  rel="stylesheet">--%>
     <style>
-
-        .nav-item {
-            padding-left: 40px;
-        }
-
-        .dropdown {
-            margin-top: 5%;
-        }
-
-        .choose-theme {
-            margin-top: 5%;
-        }
-
-        .my-menu {
-            box-shadow: 0px -7px 10px -9px #000000;
-        }
-
-        .complete-button {
-            margin-left: 40%;
-        }
-
-        .test-result {
-            justify-content: center;
-            margin-top: 20px;
-            margin-right: auto;
-            margin-left: auto;
-            width: 600px;
-        }
-
-        .countdown {
-            position: fixed; /* Фиксированное положение */
-            right: 10px; /* Расстояние от правого края окна браузера */
-            top: 5%; /* Расстояние сверху */
-            padding: 10px; /* Поля вокруг текста */
-            background: #ff000057; /* Цвет фона */
-            border: 1px solid #333; /* Параметры рамки */
-            width: 90px;
-            text-align: center;
-
-        }
-
-        .login-help {
-            font-size: 12px;
-        }
-
-        .my-form-menu {
-            margin-bottom: 0;
-        }
-
-        .my-form-menu input {
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        .my-form-menu::before,
-        .my-form-menu::after {
-            box-sizing: content-box;
-        }
+        <%@include file="../css/user.css" %>
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
@@ -81,7 +23,6 @@
             str += "&";
             str += name + "=" + value;
             str = "?" + str.slice(1);
-            // there is an official order for the query and the hash if you didn't know.
             location.assign(location.origin + location.pathname + str + location.hash)
         };
     </script>

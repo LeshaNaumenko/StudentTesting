@@ -35,7 +35,7 @@ public class LanguageFilter implements Filter {
         LanguageManager langManager = (LanguageManager) req.getSession().getAttribute("appLocale");
         String lang = req.getParameter("lang");
         if (lang != null) {
-            langManager.setLocale(Language.valueOf(lang).getLocale());
+            langManager.setLocale(lang);
             req.getSession().setAttribute("appLocale", langManager);
         }
         filterChain.doFilter(req, response);
